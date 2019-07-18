@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
+   
 </head>
 
 <body>
@@ -127,7 +128,9 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-12" style="height: 300px;">
-                        <span id="chart-goes-here"></span>
+                        
+                            <canvas id="chart-canvas" width="400" height="100" aria-label="This is where the productivity chart should be" role="img"></canvas>
+                        
                     </div>
                 </div>
             </div>
@@ -154,15 +157,18 @@
                     href="https://github.com/SzczeZam/">Max Szczepaniak</a>.</span>
         </div>
     </footer>
-
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <!-- Moment.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"
-        integrity="sha256-H9jAz//QLkDOy/nzE9G4aYijQtkLt9FvGmdUTwBk6gs=" crossorigin="anonymous"></script>
+    integrity="sha256-H9jAz//QLkDOy/nzE9G4aYijQtkLt9FvGmdUTwBk6gs=" crossorigin="anonymous"></script>
+    <!-- Chart.JS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <!-- Custom javascript -->
     <script src="assets/javascript/logic.js"></script>
+    <!-- Custom Chart Javascript -->
+    <script src="assets/javascript/app.js"></script>
 </body>
 
 </html>
