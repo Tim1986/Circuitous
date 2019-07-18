@@ -30,3 +30,12 @@ var chart = new Chart(ctx, {
         }
     }
 });
+$(document).on("load", function (){
+    var calendarEl = document.getElementById('calendar-goes-here');
+
+  var calendar = new Calendar(calendarEl, {
+    plugins: [ dayGridPlugin ]
+  });
+
+  calendar.render();
+});
