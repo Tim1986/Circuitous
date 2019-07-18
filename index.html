@@ -1,12 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Circuit.OS</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Bootswatch -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
+
 <body>
-    <p>Craig is a monkey</p>
+    <ul class="nav">
+        <li class="nav-item">
+            <a class="nav-link active" name="top">Circuit.os Productivity Tracker</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#new-activity">Add New Activity</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#graph-output">Visualize Your Day</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#calendar-output">Your Schedule</a>
+        </li>
+    </ul>
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="jumbotron pb-5">
+                    <h1 class="display-4">Welcome to Circuit.os!</h1>
+                    <p class="lead">Input your plans for the day and we'll put them into a handy pie chart.</p>
+                    <a class="btn btn-primary btn-lg" href="#new-activity" role="button">Get Started</a>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header"><a name="new-activity">
+                    Activity
+                    <small class="form-text text-muted"><a href="#top">[Return to top]</a></small>
+                </a></div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <form class="container">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="activityname">Activity Name</label>
+                                        <input type="text" class="form-control" id="activity-name"
+                                            placeholder="Enter the name of your activity">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="activityname">Date</label>
+                                        <input type="date" class="form-control" id="activity-date">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="starttime">Start Time</label>
+                                        <input type="time" class="form-control" id="start-time" placeholder="HH:mm">
+                                        <small id="" class="form-text text-muted">Calculate the duration or enter it
+                                            manually below.</small>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="endtime">End Time</label>
+                                        <div class="input-group">
+                                            <input type="time" class="form-control" id="end-time" placeholder="HH:mm">
+                                            <button class="input-group-addon btn-secondary" id="get-duration">Get
+                                                Duration</button></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="duration">Duration</label>
+                                        <input type="text" class="form-control" id="activity-duration"
+                                            placeholder="How long will your activity take? (HH:mm)">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="description">Activity Description</label>
+                                        <textarea class="form-control" id="activity-description" rows="5"
+                                            placeholder="Optional"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <button type="submit" id="submit-activity" class="btn btn-primary">Submit</button>
+                                <div class="form-group form-check ml-4">
+                                    <input type="checkbox" class="form-check-input mt-2" id="recurring">
+                                    <label class="form-check-label" for="recurring">Check here if this activity reoccurs
+                                        daily</label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header"><a name="graph-output">
+                    Productivity Analysis
+                    <small class="form-text text-muted"><a href="#top">[Return to top]</a></small>
+                </a></div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12" style="height: 300px;">
+                        <span id="chart-goes-here"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header"><a name="calendar-output">
+                    My Calendar
+                    <small class="form-text text-muted"><a href="#top">[Return to top]</a></small>
+                </a></div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12" style="height: 300px;">
+                        <span id="calendar-goes-here"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer mt-5 p-4">
+        <div class="container">
+            <span class="text-muted">Created by <a href="https://github.com/Tim1986">Timothy David Brahm</a>, <a
+                    href="https://github.com/CMack704">Craig McAlister</a>, <a
+                    href="https://github.com/erinruthmaness/">Erin Ruth Maness</a>, and <a
+                    href="https://github.com/SzczeZam/">Max Szczepaniak</a>.</span>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <!-- Moment.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"
+        integrity="sha256-H9jAz//QLkDOy/nzE9G4aYijQtkLt9FvGmdUTwBk6gs=" crossorigin="anonymous"></script>
+    <!-- Custom javascript -->
+    <script src="assets/javascript/logic.js"></script>
 </body>
+
 </html>
