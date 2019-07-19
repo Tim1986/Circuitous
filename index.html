@@ -68,7 +68,7 @@
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label for="activity-name">Activity Name</label>
-                                        <input type="text" class="form-control" id="activity-name"
+                                        <input name ="acitivity-name" type="text" class="form-control" id="activity-name"
                                             placeholder="Enter the name of your activity">
                                     </div>
                                 </div>
@@ -77,24 +77,34 @@
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label for="activity-date">Date</label>
-                                        <input type="date" class="form-control" id="activity-date">
+                                        <input name="activitiy-date" type="date" class="form-control" id="activity-date">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group">
-                                        <label for="starttime">Start Time</label>
-                                        <input type="time" class="form-control" id="start-time" placeholder="HH:mm">
+                                      
+                                        <label for="starttime">Start Time
+                                            <small id="" class="form-text text-muted">HH:mm AM/PM</small>
+                                        </label>
+<<<<<<< HEAD
+                                        <input name="start-time" type="time" class="form-control" id="start-time" placeholder="HH:mm">
+=======
+
+                                  <input type="time" class="form-control" id="start-time" placeholder="HH:mm">
+>>>>>>> 40cd162dfe79c6f440f592f4dc957b0825a6d73c
                                         <small id="" class="form-text text-muted">Calculate the duration or enter it
                                             manually below.</small>
                                     </div>
                                 </div>
                                 <div class="col-6">
-                                    <div class="form-group">
-                                        <label for="endtime">End Time</label>
+                                    <div class="formgroup">
+                                        <label for="end-time">End Time
+                                            <small id="" class="form-text text-muted">HH:mm AM/PM</small>
+                                        </label>
                                         <div class="input-group">
-                                            <input type="time" class="form-control" id="end-time" placeholder="HH:mm">
+                                            <input name="end-time" type="time" class="form-control" id="end-time" placeholder="HH:mm">
                                             <button class="input-group-addon btn-secondary" id="get-duration">Get
                                                 Duration</button></div>
                                     </div>
@@ -104,7 +114,7 @@
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label for="duration">Duration</label>
-                                        <input type="text" class="form-control" id="activity-duration"
+                                        <input name="activity-duration" type="text" class="form-control" id="activity-duration"
                                             placeholder="How long will your activity take? (HH:mm)">
                                     </div>
                                 </div>
@@ -113,7 +123,7 @@
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label for="description">Activity Description</label>
-                                        <textarea class="form-control" id="activity-description" rows="5"
+                                        <textarea name="activity-description" class="form-control" id="activity-description" rows="5"
                                             placeholder="Optional"></textarea>
                                     </div>
                                 </div>
@@ -122,7 +132,7 @@
                                 <div class="col-6">
                                     <button type="submit" id="submit-activity" class="btn btn-primary">Submit</button>
                                     <div class="form-group form-check ml-4">
-                                        <input type="checkbox" class="form-check-input mt-2" id="recurring">
+                                        <input name="recurring" type="checkbox" class="form-check-input mt-2" id="recurring">
                                         <label class="form-check-label" for="recurring">Check here if this activity reoccurs
                                             daily</label>
                                         </div>
@@ -173,21 +183,15 @@
                     href="https://github.com/SzczeZam/">Max Szczepaniak</a>.</span>
         </div>
     </footer>
-    <!--Firebase-->
-    <script src="https://www.gstatic.com/firebasejs/6.3.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-database.js"></script>
+
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <!-- Moment.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"
-    integrity="sha256-H9jAz//QLkDOy/nzE9G4aYijQtkLt9FvGmdUTwBk6gs=" crossorigin="anonymous"></script>
     <!-- Chart.JS -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <!-- Custom javascript -->
-    <script src="assets/javascript/logic.js"></script>
-    <!-- Custom Chart Javascript -->
     <script src="assets/javascript/app.js"></script>
+
 </body>
 
 </html>
