@@ -93,16 +93,3 @@ $('#remove-activity').on('click', function(e){
     console.log('you clicked me')
     removeData(chart, newActivity.activityName, newActivity.activityDuration)
 })
-
-
-
-
-$(document).on("load", function (){
-    var calendarEl = document.getElementById('calendar-goes-here');
-
-  var calendar = new Calendar(calendarEl, {
-    plugins: [ dayGridPlugin ]
-  });
-
-  calendar.render();
-});
