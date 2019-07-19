@@ -79,6 +79,14 @@ $('#submit-activity').on('click', function(e){
     e.preventDefault()
     console.log('you clicked me')
     addData(chart, activityName, duration)
+
+    //This is to clear our fields after we click submit
+    $("#activity-name").val("");
+    $("#activity-date").val("");
+    $("#start-time").val("");
+    $("#end-time").val(""); 
+    $("#activity-duration").val("");
+    $("#activity-description").val(""); 
 })
 
 $('#remove-activity').on('click', function(e){
