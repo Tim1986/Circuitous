@@ -6,7 +6,7 @@ var ctx = document.getElementById('chart-canvas').getContext('2d');
 var activityName = $('#activity-name').val()
 var startTime = $('#start-time').val()
 var endTime = $('#end-time').val()
-var duartion = 8.3
+var duration = 8.3
 
 function addData(chart, label, data) {
     chart.data.labels.push(label);
@@ -31,7 +31,7 @@ var data ={
         label: 'Activitie Durations',
         backgroundColor: 'rgb(255, 99, 132)',
         borderColor: 'rgb(255, 00, 132)',
-        data: []
+        data: [whitespaceVar]
     }]
 }
 
@@ -59,13 +59,28 @@ var chart = new Chart(ctx, {
     }
 })
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $('#submit-activity').on('click', function(e){
     e.preventDefault()
     console.log('you clicked me')
-    addData(chart, newActivity.activityName, newActivity.activityDuration)
-    
-
+    addData(chart, activityName, duration)
 })
+
 $('#remove-activity').on('click', function(e){
     e.preventDefault()
     console.log('you clicked me')
