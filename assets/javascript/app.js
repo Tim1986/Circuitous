@@ -11,11 +11,12 @@ var newActivity = {
     activityDescription: $("#activity-name").val().trim(),
 }
 
-
+// functions for adding and removing activities
 function addData(chart, label, data) {
     chart.data.labels.push(label);
     chart.data.datasets.forEach((dataset) => {
         dataset.data.push(data);
+        tempArr.push(data)
     });
     chart.update();
 }
@@ -24,13 +25,21 @@ function removeData(chart) {
     chart.data.labels.pop();
     chart.data.datasets.forEach((dataset) => {
         dataset.data.pop();
+        tempArr.pop()
     });
     chart.update();
 }
 
 
+var tempArr = []
+var placeHolder = {
+    duration:  100 - (tempArr.reduce(function(acc, val) { return acc + val; }, 0)),
+    name : 'unscheduled time',
+}
+
+// The data for our dataset
 var data ={
-    labels: [],
+    labels: [placeHolder.name,],
     datasets: [{
         label: 'Activitie Durations',
         backgroundColor: [
@@ -42,7 +51,7 @@ var data ={
             'rgba(255, 159, 64, 1)'
         ],
         // borderColor: 'rgb(255, 00, 132)',
-        data: []
+        data: [placeHolder.duration,]
         // add whitespace variable and math
     }]
 }
@@ -52,7 +61,6 @@ var data ={
 var chart = new Chart(ctx, {
     // The type of chart we want to create
     type: 'pie',
-    // The data for our dataset
 
     data: data,
     
@@ -97,12 +105,12 @@ $('#remove-activity').on('click', function(e){
 
 
 
-$(document).on("load", function (){
-    var calendarEl = document.getElementById('calendar-goes-here');
+// $(document).on("load", function (){
+//     var calendarEl = document.getElementById('calendar-goes-here');
 
-  var calendar = new Calendar(calendarEl, {
-    plugins: [ dayGridPlugin ]
-  });
+//   var calendar = new Calendar(calendarEl, {
+//     plugins: [ dayGridPlugin ]
+//   });
 
-  calendar.render();
-});
+//   calendar.render();
+// });
