@@ -1,56 +1,50 @@
 //form input
 var newActivity = {
-    name: $("#activity-name").val().trim(),
-    date: $("#activity-date").val().trim(),
-    start: $("#start-time").val().trim(),
-    end: $("#activity-name").val().trim(),
-    duration: $("#activity-duration").val().trim(),
-    description: $("#activity-name").val().trim(),
-    daily: false,
-}
+    getDuration: function () {
+        //pulls start and end info
+        //removes the : in the timestamps and finds the difference
+        var arrStart = $("#start-time").val().trim().split(":");
+        var arrEnd = $("#end-time").val().trim().split(":");
+        var diffHour = parseInt(arrEnd[0]) - parseInt(arrStart[0]);
+        console.log(diffHour);
+        if (parseInt(arrEnd[1]) < parseInt(arrStart[1])) {
+            parseInt(arrEnd[1]) + 60;
+        }
+        //if they put in an end time past midnight
+        if (diffHour < 0) {
+            alert("Please only enter activities that can be completed in one day!")
+            $("#start-time").val("");
+            $("#end-time").val("");
+        }
+        var diffMin = parseInt(arrEnd[1]) - parseInt(arrStart[1]);
+        console.log(diffMin);
+        if (diffMin < 0) {
+            diffHour--;
+            diffMin = (60 + diffMin);
+        }
+        //formats the difference to HH:mm and makes it a string
+        if (diffHour.toString().length === 1) {
+            diffHour = "0" + diffHour.toString();
+        }
+        else {
+            diffHour.toString();
+        }
+        if (diffMin.toString().length === 1) {
+            diffMin = "0" + diffMin.toString();
+        }
+        else {
+            diffMin.toString();
+        }
+        //sets the difference as the duration
+        var duration = diffHour + ":" + diffMin;
+        console.log("duration " + duration);
+        return duration;
 
-function getDuration() {
-    //pulls start and end info
-    console.log(newActivity.start);
-    console.log(newActivity.end);
-    //removes the : in the timestamps and finds the difference
-    var splitStart = newActivity.start.split(":");
-    var splitEnd = newActivity.end.split(":");
-    var diffHour = parseInt(splitEnd[0]) - parseInt(splitStart[0]);
-    console.log(diffHour);
-    if (parseInt(splitEnd[1]) < parseInt(splitStart[1])) {
-        parseInt(splitEnd[1]) + 60;
     }
-    //if they put in an end time past midnight
-    if (diffHour < 0) {
-        alert("Please only enter activities that can be completed in one day!")
-        $("#start-time").val("");
-        $("#end-time").val("");
-    }
-    var diffMin = parseInt(splitEnd[1]) - parseInt(splitStart[1]);
-    console.log(diffMin);
-    if (diffMin < 0) {
-        diffHour--;
-        diffMin = (60 + diffMin);
-    }
-    //formats the difference to HH:mm and makes it a string
-    if (diffHour.toString().length === 1) {
-        diffHour = "0" + diffHour.toString();
-    }
-    else {
-        diffHour.toString();
-    }
-    if (diffMin.toString().length === 1) {
-        diffMin = "0" + diffMin.toString();
-    }
-    else {
-        diffMin.toString();
-    }
-    //sets the difference as the duration
-    newActivity.actDuration = diffHour + ":" + diffMin;
-    console.log("duration " + newActivity.duration);
 
 }
+
+
 
 
 $(document).ready(function () {
@@ -58,36 +52,41 @@ $(document).ready(function () {
     //when user clicks Get Duration
     $("#get-duration").on("click", function (event) {
         event.preventDefault();
-        //dummy variables while we troubleshoot
-        newActivity.start = "17:00";
-        newActivity.end = "19:00";
         //keeps Get Duration from running with no input
-        //PLEASE UNCOMMENT THIS AND THE LAST BRACKET WHEN INPUT GETS FIXED!!!
         // if (($("#start-time").val("")) || ($("#end-time").val(""))) {
         //     console.log("NO BLANKS")
         // }
         // else {
-            getDuration();
-            $("#activity-duration").val(newActivity.duration);
-            $("#activity-duration").attr("disabled", true);
-            //option to clear the duration and start over
-            $("#get-duration").text("Clear Duration").on("click", function () {
-                $("#activity-duration").attr("disabled", false);
-                $("#activity-duration").val("");
-                $("#start-time").val("");
-                $("#end-time").val("");
-                $("#get-duration").text("Get Duration");
-            })
-        // }
+        $("#activity-duration").val(newActivity.getDuration());
+        $("#activity-duration").attr("disabled", true);
+        //option to clear the duration and start over
+        $("#get-duration").text("Clear Duration").on("click", function () {
+            $("#activity-duration").attr("disabled", false);
+            $("#activity-duration").val("");
+            $("#start-time").val("");
+            $("#end-time").val("");
+            $("#get-duration").text("Get Duration");
+        })
     })
 
     //when user clicks submit
     $("#submit-activity").on("click", function (event) {
         event.preventDefault();
         //pulls activity info
+        newActivity = {
+            name: $("#activity-name").val().trim(),
+            date: $("#activity-date").val().trim(),
+            start: $("#start-time").val().trim(),
+            end: $("#activity-name").val().trim(),
+            duration: newActivity.getDuration(),
+            description: $("#activity-description").val().trim(),
+            daily: false,
+        }
+        console.log("duration is " + newActivity.duration);
+
         //runs getDuration if they put in a start & end but didnt finish
-        if (newActivity.duration === "") {
-            getDuration()
+        if ($("#activity-duration").val("") === "") {
+            newActivity.duration = newActivity.getDuration()
         }
         if ($("#recurring").is(":checked")) {
             newActivity.daily = true;
@@ -101,6 +100,7 @@ $(document).ready(function () {
         $("#activity-description").val("");
         $("#checkboxId").prop("checked", false)
         $("#get-duration").text("Get Duration");
+        $("#get-duration").off();
 
         console.log("name " + newActivity.name); //not working
         console.log("date " + newActivity.date); //not working
