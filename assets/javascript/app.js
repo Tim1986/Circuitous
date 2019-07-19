@@ -43,27 +43,6 @@ var chart = new Chart(ctx, {
     }
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 var newActivity = {
     activityName: $("#activity-name").val().trim(),
     activityDate: $("#activity-date").val().trim(),
@@ -72,3 +51,14 @@ var newActivity = {
     activityDuration: $("#activity-duration").val().trim(),
     activityDescription: $("#activity-name").val().trim(),
 }
+
+
+$(document).on("load", function (){
+    var calendarEl = document.getElementById('calendar-goes-here');
+
+  var calendar = new Calendar(calendarEl, {
+    plugins: [ dayGridPlugin ]
+  });
+
+  calendar.render();
+});
