@@ -56,7 +56,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <label for="activityname">Activity Name</label>
+                                        <label for="activity-name">Activity Name</label>
                                         <input type="text" class="form-control" id="activity-name"
                                             placeholder="Enter the name of your activity">
                                     </div>
@@ -65,7 +65,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <label for="activityname">Date</label>
+                                        <label for="activity-date">Date</label>
                                         <input type="date" class="form-control" id="activity-date">
                                     </div>
                                 </div>
@@ -74,7 +74,7 @@
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label for="starttime">Start Time</label>
-                                        <input type="time" class="form-control" id="git" placeholder="HH:mm">
+                                        <input type="time" class="form-control" id="start-time" placeholder="HH:mm">
                                         <small id="" class="form-text text-muted">Calculate the duration or enter it
                                             manually below.</small>
                                     </div>
@@ -108,11 +108,16 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <button type="submit" id="submit-activity" class="btn btn-primary">Submit</button>
-                                <div class="form-group form-check ml-4">
-                                    <input type="checkbox" class="form-check-input mt-2" id="recurring">
-                                    <label class="form-check-label" for="recurring">Check here if this activity reoccurs
-                                        daily</label>
+                                <div class="col-6">
+                                    <button type="submit" id="submit-activity" class="btn btn-primary">Submit</button>
+                                    <div class="form-group form-check ml-4">
+                                        <input type="checkbox" class="form-check-input mt-2" id="recurring">
+                                        <label class="form-check-label" for="recurring">Check here if this activity reoccurs
+                                            daily</label>
+                                        </div>
+                                </div>
+                                <div class="col-6">
+                                        <button id="remove-activity" class="btn btn-primary">Remove last activity</button>
                                 </div>
                             </div>
                         </form>
@@ -166,7 +171,7 @@
     <!-- Chart.JS -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <!-- Custom javascript -->
-    <script src="assets/javascript/logic.js"></script>
+    <!-- <script src="assets/javascript/logic.js"></script> -->
     <!-- Custom Chart Javascript -->
     <script src="assets/javascript/app.js"></script>
 </body>

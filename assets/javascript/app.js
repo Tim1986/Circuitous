@@ -2,23 +2,36 @@ var ctx = $('#chart-canvas')
 var ctx = document.getElementById('chart-canvas').getContext('2d');
 
 // grabbing form variables
-var activityName = $('activity-name').val()
-var startTime = $('start-time').val()
-var endTime = $
 
+var activityName = $('#activity-name').val()
+var startTime = $('#start-time').val()
+var endTime = $('#end-time').val()
+var duartion = 8.3
 
-function pushData(){
-    data.labels.append(activityName)
-
+function addData(chart, label, data) {
+    chart.data.labels.push(label);
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data.push(data);
+    });
+    chart.update();
 }
+
+function removeData(chart) {
+    chart.data.labels.pop();
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data.pop();
+    });
+    chart.update();
+}
+
 
 var data ={
     labels: [],
     datasets: [{
-        label: 'My First dataset',
+        label: 'Activitie Durations',
         backgroundColor: 'rgb(255, 99, 132)',
         borderColor: 'rgb(255, 00, 132)',
-        data: [0, 10, 5, 2, 20, 30, 45]
+        data: []
     }]
 }
 
@@ -44,4 +57,17 @@ var chart = new Chart(ctx, {
             },
         }
     }
+})
+
+$('#submit-activity').on('click', function(e){
+    e.preventDefault()
+    console.log('you clicked me')
+    addData(chart, newActivity.activityName, newActivity.activityDuration)
+    
+
+})
+$('#remove-activity').on('click', function(e){
+    e.preventDefault()
+    console.log('you clicked me')
+    removeData(chart, newActivity.activityName, newActivity.activityDuration)
 })
