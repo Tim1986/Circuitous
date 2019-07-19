@@ -84,15 +84,21 @@
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group">
-                                        <label for="starttime">Start Time (example: 10:30 AM)</label>
-                                        <input type="time" class="form-control" id="start-time" placeholder="HH:mm">
+                                      
+                                        <label for="starttime">Start Time
+                                            <small id="" class="form-text text-muted">HH:mm AM/PM</small>
+                                        </label>
+
+                                  <input type="time" class="form-control" id="start-time" placeholder="HH:mm">
                                         <small id="" class="form-text text-muted">Calculate the duration or enter it
                                             manually below.</small>
                                     </div>
                                 </div>
                                 <div class="col-6">
-                                    <div class="form-group">
-                                        <label for="endtime">End Time</label>
+                                    <div class="formgroup">
+                                        <label for="end-time">End Time
+                                            <small id="" class="form-text text-muted">HH:mm AM/PM</small>
+                                        </label>
                                         <div class="input-group">
                                             <input type="time" class="form-control" id="end-time" placeholder="HH:mm">
                                             <button class="input-group-addon btn-secondary" id="get-duration">Get
