@@ -43,6 +43,27 @@ var chart = new Chart(ctx, {
     }
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var newActivity = {
     activityName: $("#activity-name").val().trim(),
     activityDate: $("#activity-date").val().trim(),
