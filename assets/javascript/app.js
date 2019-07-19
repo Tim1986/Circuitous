@@ -2,14 +2,7 @@ var ctx = $('#chart-canvas')
 var ctx = document.getElementById('chart-canvas').getContext('2d');
 
 // grabbing form variables
-var newActivity = {
-    activityName: $("#activity-name").val().trim(),
-    activityDate: $("#activity-date").val().trim(),
-    startTime: $("#start-time").val().trim(),
-    endTime: $("#activity-name").val().trim(),
-    activityDuration: $("#activity-duration").val().trim(),
-    activityDescription: $("#activity-name").val().trim(),
-}
+var newActivity = {}
 
 // functions for adding and removing activities
 function addData(chart, label, data) {
@@ -62,10 +55,11 @@ var chart = new Chart(ctx, {
     // The type of chart we want to create
     type: 'pie',
 
-    data: data,
+    data: data, 
     
     // Configuration options go here
     options: {
+        rotation: -.5 * Math.PI ,
         borderWidth: 50,
         layout:{
             responsive: true,
@@ -76,7 +70,7 @@ var chart = new Chart(ctx, {
                 top: '50px',
                 bottom: '50px',
             },
-        }
+        },
     }
 
 })
@@ -85,6 +79,14 @@ var chart = new Chart(ctx, {
 $('#submit-activity').on('click', function(e){
     e.preventDefault()
     console.log('you clicked me')
+    var newActivity = {
+        activityName: $("#activity-name").val().trim(),
+        activityDate: $("#activity-date").val().trim(),
+        startTime: $("#start-time").val().trim(),
+        endTime: $("#activity-name").val().trim(),
+        activityDuration: $("#activity-duration").val().trim(),
+        activityDescription: $("#activity-name").val().trim(),
+    }
     addData(chart, newActivity.activityName, 10) //placeholder duration
 
     //This is to clear our fields after we click submit
@@ -104,13 +106,3 @@ $('#remove-activity').on('click', function(e){
 
 
 
-
-// $(document).on("load", function (){
-//     var calendarEl = document.getElementById('calendar-goes-here');
-
-//   var calendar = new Calendar(calendarEl, {
-//     plugins: [ dayGridPlugin ]
-//   });
-
-//   calendar.render();
-// });
