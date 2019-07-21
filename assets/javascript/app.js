@@ -139,9 +139,22 @@ $(document).ready(function () {
         })
     })
 
+    var activityCount = 0
+    
     //when user clicks submit
     $("#submit-activity").on("click", function (event) {
         event.preventDefault();
+
+        var activityList = []
+
+        // newActivity.date = $("#activity-date").val().trim()
+        // newActivity.start = $("#start-time").val().trim()
+        // newActivity.name = $("#activity-name").val().trim()
+        // newActivity.end = $("#activity-name").val().trim()
+        // newActivity.duration = newActivity.getDuration()
+        // newActivity.description = $("#activity-description").val().trim()
+        // newActivity.daily = false
+
         //pulls activity info
         newActivity = {
             name: $("#activity-name").val().trim(),
@@ -161,13 +174,22 @@ $(document).ready(function () {
             newActivity.daily = true;
         }
 
-        // local storage stuff
-        localStorage.clear();
-        localStorage.setItem('storeObj', JSON.stringify(newActivity));
+        activityList.push(newActivity)
+        activityList = activityList.concat(JSON.parse(localStorage.getItem('activityList')||'[]'));      
+        localStorage.setItem("activityList", JSON.stringify(activityList));
+      
         // Use this to grab the object:
-        // var getObject = JSON.parse(localStorage.getItem('storeObj'));
+        // var getObject = JSON.parse(localStorage.getItem('activityList'));
+
+        activityCount++;
+        console.log(activityCount);
 
         addData(chart, newActivity.name, 10) //placeholder duration
+
+        // // Tim's current attempt at rework of ^^ using local storage:
+        // for (var i = 0; i < activityList.length; i++) {
+        //     addData(chart, activityList[i].name, activityList[i].duration)
+        // }
 
         //clears form
         $("#activity-name").val("");
