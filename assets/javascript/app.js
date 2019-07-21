@@ -49,7 +49,6 @@ var newActivity = {
 
 }
 
-
 // functions for adding and removing activities
 function addData(chart, label, data) {
     chart.data.labels.push(label);
