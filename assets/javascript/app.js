@@ -153,8 +153,6 @@ $(document).ready(function () {
             daily: false,
         }
 
-        addData(chart, newActivity.name, 10) //placeholder duration
-
         //runs getDuration if they put in a start & end but didnt finish
         if ($("#activity-duration").val("") === "") {
             newActivity.duration = newActivity.getDuration()
@@ -162,6 +160,15 @@ $(document).ready(function () {
         if ($("#recurring").is(":checked")) {
             newActivity.daily = true;
         }
+
+        // local storage stuff
+        localStorage.clear();
+        localStorage.setItem('storeObj', JSON.stringify(newActivity));
+        // Use this to grab the object:
+        // var getObject = JSON.parse(localStorage.getItem('storeObj'));
+
+        addData(chart, newActivity.name, 10) //placeholder duration
+
         //clears form
         $("#activity-name").val("");
         $("#activity-date").val("")
