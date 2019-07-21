@@ -241,35 +241,39 @@ document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar-goes-here');
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
-        plugins: ['dayGrid', 'list', 'interaction'],
-        defaultView: 'dayGridMonth',
-        header: {
-            center: 'addEventButton, dayGridWeek, dayGridMonth'
-        },
-        customButtons: {
-            addEventButton: {
-                text: 'add event...',
-                click: function () {
-                    var title = $("#activity-name").val().trim();
-                    var dateStr = $("#activity-date").val().trim();
-                    //var d = date.getDate();
-                    //var m = date.getMonth();
-                    //var y = date.getFullYear();
-                    var startTime = $("#start-time").val().trim().split(":");
-                    var endTime = $("#end-time").val().trim().split(":");
-                    var date = new Date(dateStr + 'T00:00:00'); // will be in local time
 
-                    if (!isNaN(date.valueOf())) { // valid?
-                        calendar.addEvent({
-                            title: title,
-                            start: date,
-                            allDay: true
-                        });
-
-                    } else {
-                        alert('Invalid date.');
-                    }
-                }
+      plugins: [ 'dayGrid', 'list', 'interaction' ],
+      editable: true,
+      defaultView: 'dayGridMonth',
+      header: {
+        center: 'addEventButton, listDay, dayGridWeek, dayGridMonth'
+      },
+      customButtons: {
+        addEventButton: {
+          text: 'add event...',
+          click: function() {
+            //var title = $("#activity-name").val().trim();
+            var dateStr = $("#activity-date").val().trim();
+            //console.log(dateStr)
+            
+            
+            // Gets stored data and parse it back
+            var getArray = JSON.parse(localStorage.getItem('activityList'));
+            console.log(getArray)
+            //var startTime = $("#start-time").val().trim();
+            //var endTime = $("#end-time").val().trim();
+            //console.log(dateStr + startTime, dateStr + endTime)
+            var date = new Date(dateStr + 'T00:00:00'); // will be in local time
+  
+            
+            for (var i = 0; i < getArray.length; i++) {
+                calendar.addEvent({
+                    title: getArray[i].name,
+                    start: getArray[i].date + " " + getArray[i].start,  
+                    end: getArray[i].date + " " + getArray[i].end,              
+                    allDay: false
+                    });
+                }              
             }
         }
     });
