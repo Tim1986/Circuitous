@@ -138,13 +138,12 @@ $(document).ready(function () {
             $("#get-duration").text("Get Duration");
         })
     })
-
-    var activityCount = 0
     
     //when user clicks submit
     $("#submit-activity").on("click", function (event) {
         event.preventDefault();
 
+        // We're going to push our newActivity object into here
         var activityList = []
 
         //pulls activity info
@@ -164,22 +163,18 @@ $(document).ready(function () {
             newActivity.daily = true;
         }
 
+        // We're pushing newActivity into the array, stringifying the array, then locally storing the array
         activityList.push(newActivity)
         activityList = activityList.concat(JSON.parse(localStorage.getItem('activityList')||'[]'));      
         localStorage.setItem("activityList", JSON.stringify(activityList));
       
-        // Use this to grab the array:
-        // var getObject = JSON.parse(localStorage.getItem('activityList'));
+        // This grabs the stored, stringified array from local storage and unstringifies it
+        var getArray = JSON.parse(localStorage.getItem('activityList'));
 
-        activityCount++;
-        console.log(activityCount);
-
-        addData(chart, newActivity.name, 10) //placeholder duration
-
-        // // Tim's current attempt at rework of ^^ using local storage:
-        // for (var i = 0; i < activityList.length; i++) {
-        //     addData(chart, activityList[i].name, activityList[i].duration)
-        // }
+        // This is looping through each object in the array and running the addData function with each object's name and duration
+        for (var i = 0; i < getArray.length; i++) {
+            addData(chart, getArray[i].name, parseInt(getArray[i].duration))
+        }
 
         //clears form
         $("#activity-name").val("");
