@@ -234,14 +234,9 @@ $(document).ready(function () {
         console.log('you clicked me')
         removeData(chart, newActivity.name, newActivity.duration)
     })
-
-})
-
-document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar-goes-here');
-
+    
     var calendar = new FullCalendar.Calendar(calendarEl, {
-
       plugins: [ 'dayGrid', 'list', 'interaction' ],
       editable: true,
       defaultView: 'dayGridMonth',
@@ -276,7 +271,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 }              
             }
         }
+      }
     });
-
+  
     calendar.render();
-});
+
+
+})
+
