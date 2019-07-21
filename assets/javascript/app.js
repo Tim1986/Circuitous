@@ -114,7 +114,6 @@ var chart = new Chart(ctx, {
             },
         },
     }
-
 })
 
 $(document).ready(function () {
@@ -183,7 +182,7 @@ $(document).ready(function () {
         $("#end-time").val("");
         $("#activity-duration").val("");
         $("#activity-description").val("");
-        $("#checkboxId").prop("checked", false)
+        $("#checkboxId").prop("checked", false);
         $("#get-duration").text("Get Duration");
         $("#get-duration").off();
 
@@ -204,3 +203,42 @@ $(document).ready(function () {
 
 })
 
+document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar-goes-here');
+    
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      plugins: [ 'dayGrid', 'list', 'interaction' ],
+      defaultView: 'dayGridMonth',
+      header: {
+        center: 'addEventButton, dayGridWeek, dayGridMonth'
+      },
+      customButtons: {
+        addEventButton: {
+          text: 'add event...',
+          click: function() {
+            var title = $("#activity-name").val().trim();
+            var dateStr = $("#activity-date").val().trim();
+            //var d = date.getDate();
+            //var m = date.getMonth();
+            //var y = date.getFullYear();
+            var startTime = $("#start-time").val().trim().split(":");
+            var endTime = $("#end-time").val().trim().split(":");
+            var date = new Date(dateStr + 'T00:00:00'); // will be in local time
+  
+            if (!isNaN(date.valueOf())) { // valid?
+              calendar.addEvent({
+                title: title,
+                start: date,
+                allDay: true
+              });
+              
+            } else {
+              alert('Invalid date.');
+            }
+          }
+        }
+      }
+    });
+  
+    calendar.render();
+  });
