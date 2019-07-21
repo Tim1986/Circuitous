@@ -112,20 +112,42 @@ $(document).ready(function () {
     })
 })
 
-document.addEventListener('DOMContentLoaded', function () {
-    var calendarEl = document.getElementById('calendar-goes-here');
+document.addEventListener('DOMContentLoaded', function() {
+  var calendarEl = document.getElementById('calendar-goes-here');
+  
+  var calendar = new FullCalendar.Calendar(calendarEl, {
+    plugins: [ 'dayGrid', 'list', 'interaction' ],
+    defaultView: 'dayGridMonth',
+    header: {
+      center: 'addEventButton, dayGridWeek, dayGridMonth'
+    },
+    customButtons: {
+      addEventButton: {
+        text: 'add event...',
+        click: function() {
+          var title = $("#activity-name").val().trim();
+          var dateStr = $("#activity-date").val().trim();
+          //var d = date.getDate();
+          //var m = date.getMonth();
+          //var y = date.getFullYear();
+          var startTime = $("#start-time").val().trim().split(":");
+          var endTime = $("#end-time").val().trim().split(":");
+          var date = new Date(dateStr + 'T00:00:00'); // will be in local time
 
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-        plugins: ['dayGrid', 'interaction', 'list', 'moment'],
-        header: { center: 'dayGridMonth, dayGridWeek, dayGridDay' }, // buttons for switching between views
-
-        views: {
-            dayGridMonth: { // name of view
-                titleFormat: { year: 'numeric', month: '2-digit', day: '2-digit' }
-                // other view-specific options here
-            }
+          if (!isNaN(date.valueOf())) { // valid?
+            calendar.addEvent({
+              title: title,
+              start: date,
+              allDay: true
+            });
+            
+          } else {
+            alert('Invalid date.');
+          }
         }
-    });
+      }
+    }
+  });
 
-    calendar.render();
+  calendar.render();
 });
