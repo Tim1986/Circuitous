@@ -147,24 +147,14 @@ $(document).ready(function () {
 
         var activityList = []
 
-        // newActivity.date = $("#activity-date").val().trim()
-        // newActivity.start = $("#start-time").val().trim()
-        // newActivity.name = $("#activity-name").val().trim()
-        // newActivity.end = $("#activity-name").val().trim()
-        // newActivity.duration = newActivity.getDuration()
-        // newActivity.description = $("#activity-description").val().trim()
-        // newActivity.daily = false
-
         //pulls activity info
-        newActivity = {
-            name: $("#activity-name").val().trim(),
-            date: $("#activity-date").val().trim(),
-            start: $("#start-time").val().trim(),
-            end: $("#activity-name").val().trim(),
-            duration: newActivity.getDuration(),
-            description: $("#activity-description").val().trim(),
-            daily: false,
-        }
+        newActivity.date = $("#activity-date").val().trim()
+        newActivity.start = $("#start-time").val().trim()
+        newActivity.name = $("#activity-name").val().trim()
+        newActivity.end = $("#end-time").val().trim()
+        newActivity.duration = newActivity.getDuration()
+        newActivity.description = $("#activity-description").val().trim()
+        newActivity.daily = false
 
         //runs getDuration if they put in a start & end but didnt finish
         if ($("#activity-duration").val("") === "") {
@@ -178,7 +168,7 @@ $(document).ready(function () {
         activityList = activityList.concat(JSON.parse(localStorage.getItem('activityList')||'[]'));      
         localStorage.setItem("activityList", JSON.stringify(activityList));
       
-        // Use this to grab the object:
+        // Use this to grab the array:
         // var getObject = JSON.parse(localStorage.getItem('activityList'));
 
         activityCount++;
