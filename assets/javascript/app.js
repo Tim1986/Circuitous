@@ -49,15 +49,107 @@ var newActivity = {
     }
 }
 
-// // functions for adding and removing activities
-// function addData(chart, actObj) {
-//     chart.data.labels.push(label);
-//     chart.data.datasets.forEach((dataset) => {
-//         dataset.data.push(data);
-//         tempArr.push(data)
-//     });
-//     chart.update();
-// }
+// --------------------------------------------------------------------------------CHART CODE-----------------------------------------------------------------------------------
+
+let chartData = [
+    //here is 12:00am
+      (100/24),
+      (100/24),
+      (100/24),
+      (100/24),
+      (100/24),
+      (100/24),
+    //here is 6:00am
+      (100/24), 
+      (100/24),
+      (100/24),
+      (100/24),
+      (100/24),
+      (100/24),
+    //here is 12:00pm
+      (100/24),
+      (100/24),
+      (100/24),
+      (100/24),
+      (100/24),
+      (100/24),
+    //here is 6:00pm
+      (100/24),
+      (100/24),
+      (100/24),
+      (100/24),
+      (100/24),
+      (100/24),
+    ]
+let chartLabels = [
+    //here is 12:00am
+      "placeholder - 1 hr",
+      "placeholder - 1 hr",
+      "placeholder - 1 hr",
+      "placeholder - 1 hr",
+      "placeholder - 1 hr",
+      "placeholder - 1 hr",
+    //here is 6:00am
+      "placeholder - 1 hr", 
+      "placeholder - 1 hr",
+      "placeholder - 1 hr",
+      "placeholder - 1 hr",
+      "placeholder - 1 hr",
+      "placeholder - 1 hr",
+    //here is 12:00pm
+      "placeholder - 1 hr",
+      "placeholder - 1 hr",
+      "placeholder - 1 hr",
+      "placeholder - 1 hr",
+      "placeholder - 1 hr",
+      "placeholder - 1 hr",
+    //here is 6:00pm
+      "placeholder - 1 hr",
+      "placeholder - 1 hr",
+      "placeholder - 1 hr",
+      "placeholder - 1 hr",
+      "placeholder - 1 hr",
+      "placeholder - 1 hr",
+    ]
+
+// functions for adding and removing activities
+function addData(chart, actObj) {
+    let convertedDuration = actObj.duration.split(":")
+    let convertedStart = actObj.start.split(":")
+    // let convertedEnd = actObj.end.split(":")
+
+    // var parsedStartHr = parseInt(convertedStart[0]) * (100/24)
+    // var parsedEndHr = parseInt(convertedEnd[0]) * (100/24)
+    var parsedDuration = parseInt(convertedDuration[0]) * (100/24)
+
+    var startClockTime = parseInt(convertedStart[0]);
+    var durationClockUnits = parseInt(convertedDuration[0])
+
+
+
+    for (var i = 0; i < chartData.length; i++) {
+
+        if (i === startClockTime) {
+            
+            if (durationClockUnits > 1) {
+            chartData[i] = parsedDuration;
+            chartLabels[i] = actObj.name;
+           
+                for (var j = 0; j < durationClockUnits; j++){
+                    
+                    if(j > 0){
+                    chartData.splice((i+j), 1)
+                    chartLabels.splice((i+j), 1)
+                    }
+                }
+            } else {
+            chartData[i] = parsedDuration;
+            chartLabels[i] = actObj.name;
+            }
+        }
+    }
+    chart.update();
+}
 
 var colors = [
     'rgba(255, 99, 132, 1)',
@@ -80,12 +172,12 @@ var colors = [
 
 // The data for our dataset
 var data = {
-    labels: [],
+    labels: chartLabels,
     datasets: [{
         label: 'Activity Durations',
         backgroundColor: colors,
         // borderColor: 'rgb(255, 00, 132)',
-        data: []
+        data: chartData,
     }]
 }
 
@@ -110,6 +202,9 @@ var chart = new Chart(ctx, {
         },
     }
 })
+
+
+// --------------------------------------------------------- END CHART CODE----------------------------------------------------------------------
 
 $(document).ready(function () {
 
@@ -264,10 +359,10 @@ $(document).ready(function () {
         var getArray = JSON.parse(localStorage.getItem('activityList'));
 
         // This is looping through each object in the array and running the addData function with each object's name and duration
-        for (var i = 0; i < getArray.length; i++) {
-            addData(chart, getArray[i].name, parseInt(getArray[i].duration))
-        }
 
+
+//-------------------------------------------------------------------------------CHART CODE P2---------------------------------------------------------------- 
+        
         var newActObj = {
             name: newActivity.name,
             start: newActivity.start,
@@ -276,6 +371,8 @@ $(document).ready(function () {
         }
 
         addData(chart, newActObj);
+
+// --------------------------------------------------------------------------END CHART CODE P2------------------------------------------------------------------
 
         $("#activity-name").val("");
         $("#activity-date").val("")
