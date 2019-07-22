@@ -55,7 +55,7 @@ var newActivity = {
 }
 
 // functions for adding and removing activities
-function addData(chart, label, data) {
+function addData(chart, actObj) {
     chart.data.labels.push(label);
     chart.data.datasets.forEach((dataset) => {
         dataset.data.push(data);
@@ -74,11 +74,25 @@ function removeData(chart) {
     chart.update();
 }
 
-var tempArr = []
-var placeHolder = {
-    duration: 100 - (tempArr.reduce(function (acc, val) { return acc + val; }, 0)),
-    name: 'unscheduled time',
-}
+
+var colors = [
+    'rgba(255, 99, 132, 1)',
+    'rgba(54, 162, 235, 1)',
+    'rgba(255, 206, 86, 1)',
+    'rgba(0, 128, 0, 1)',
+    'rgba(153, 102, 255, 1)',
+    'rgba(255, 0, 0, 1)',
+    'rgba(255, 159, 64, 1)',
+    'rgba(210, 180, 140, 1)',
+    'rgba(0, 0, 139, 1)',
+    'rgba(204, 204, 0, 1)',
+    'rgba(0, 100, 0, 1)',
+    'rgba(139, 0, 139, 1)',
+    'rgba(139, 0, 0, 1)',
+    'rgba(75, 192, 192, 1)',
+    'rgba(255, 140, 0, 1)',
+    'rgba(139, 69, 19, 1)',
+]
 
 // The data for our dataset
 var data = {
@@ -223,23 +237,15 @@ $(document).ready(function () {
                     addData(chart, getArray[i].name, parseInt(getArray[i].duration))
                 }
 
-                //clears form
-                $("#activity-name").val("");
-                $("#activity-date").val("")
-                $("#start-time").val("");
-                $("#end-time").val("");
-                $("#activity-duration").val("");
-                $("#activity-description").val("");
-                $("#checkboxId").prop("checked", false);
-                $("#get-duration").text("Get Duration");
-
-                console.log("name " + newActivity.name);
-                console.log("date " + newActivity.date);
-                console.log("start time " + newActivity.start);
-                console.log("duration " + newActivity.duration);
-                console.log("description " + newActivity.description);
-                console.log("daily reoccurance is " + newActivity.daily);
+            var newActObj = {
+                name: newActivity.name,
+                start: newActivity.start,
+                duration: newActivity.duration,
+                end: newActivity.end,
             }
+            
+            addData(chart, newActObj);
+            
 
         })
 
