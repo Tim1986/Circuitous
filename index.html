@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- Bootswatch -->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" id="css-link" href="assets/css/bootstrap.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/core/main.css">
@@ -23,16 +23,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/interaction/main.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/list/main.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/moment/main.js"></script>
-    
 
-   
+
+
 </head>
 
 <body>
     <ul class="nav">
-        <li class="nav-item">
-            <a class="nav-link active" name="top">Circuit.os Productivity Tracker</a>
-        </li>
         <li class="nav-item">
             <a class="nav-link" href="#new-activity">Add New Activity</a>
         </li>
@@ -42,6 +39,9 @@
         <li class="nav-item">
             <a class="nav-link" href="#calendar-output">Your Schedule</a>
         </li>
+        <li class="nav-item">
+                <a class="nav-link" id="dark-mode" href="#top">Dark Mode</a>
+            </li>
     </ul>
 
     <div class="container">
@@ -65,10 +65,13 @@
                     <div class="col-12">
                         <form class="container">
                             <div class="row">
+                                <small class="mb-2"><em>*Asterisk denotes required field.</em></small>
+                            </div>
+                            <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <label for="activity-name">Activity Name</label>
-                                        <input name ="acitivity-name" type="text" class="form-control" id="activity-name"
+                                        <label for="activity-name">Activity Name*</label>
+                                        <input name="acitivity-name" type="text" class="form-control" id="activity-name"
                                             placeholder="Enter the name of your activity">
                                     </div>
                                 </div>
@@ -76,41 +79,46 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <label for="activity-date">Date</label>
-                                        <input name="activitiy-date" type="date" class="form-control" id="activity-date">
+                                        <label for="activity-date">Date*</label>
+                                        <input name="activitiy-date" type="date" class="form-control"
+                                            id="activity-date">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col">
                                     <div class="form-group">
-                                      
-                                        <label for="starttime">Start Time
+                                        <label for="starttime">Start Time*
                                             <small id="" class="form-text text-muted">HH:mm AM/PM</small>
                                         </label>
-                                        <input name="start-time" type="time" class="form-control" id="start-time" placeholder="HH:mm">
-                                        <small id="" class="form-text text-muted">Calculate the duration or enter it
-                                            manually below.</small>
+                                        <input name="start-time" type="time" class="form-control" id="start-time"
+                                            placeholder="HH:mm">
                                     </div>
                                 </div>
-                                <div class="col-6">
-                                    <div class="formgroup">
+                                <div class="col">
+                                    <div class="form-group">
                                         <label for="end-time">End Time
                                             <small id="" class="form-text text-muted">HH:mm AM/PM</small>
                                         </label>
                                         <div class="input-group">
-                                            <input name="end-time" type="time" class="form-control" id="end-time" placeholder="HH:mm">
+                                            <input name="end-time" type="time" class="form-control" id="end-time"
+                                                placeholder="HH:mm">
                                             <button class="input-group-addon btn-secondary" id="get-duration">Get
-                                                Duration</button></div>
+                                                Duration</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <small id="" class="form-text text-muted mb-2">Calculate the duration or enter it
+                                manually below.</small>
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <label for="duration">Duration</label>
-                                        <input name="activity-duration" type="text" class="form-control" id="activity-duration"
-                                            placeholder="How long will your activity take? (HH:mm)">
+                                        <label for="duration">Duration*
+                                            <small id="" class="form-text text-muted">HH:mm</small>
+                                        </label>
+                                        <input name="activity-duration" type="text" class="form-control"
+                                            id="activity-duration" placeholder="How long will your activity take?">
                                     </div>
                                 </div>
                             </div>
@@ -118,22 +126,25 @@
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label for="description">Activity Description</label>
-                                        <textarea name="activity-description" class="form-control" id="activity-description" rows="5"
-                                            placeholder="Optional"></textarea>
+                                        <textarea name="activity-description" class="form-control"
+                                            id="activity-description" rows="5" placeholder="Optional"></textarea>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-6">
-                                    <button type="submit" id="submit-activity" class="btn btn-primary">Submit</button>
-                                    <div class="form-group form-check ml-4">
-                                        <input name="recurring" type="checkbox" class="form-check-input mt-2" id="recurring">
-                                        <label class="form-check-label" for="recurring">Check here if this activity reoccurs
-                                            daily</label>
-                                        </div>
+                                <div class="form-group form-check ml-4">
+                                    <input name="recurring" type="checkbox" class="form-check-input mt-2"
+                                        id="recurring">
+                                    <label class="form-check-label" for="recurring">Check here if this activity reoccurs
+                                        daily</label>
                                 </div>
-                                <div class="col-6">
-                                        <button id="remove-activity" class="btn btn-primary">Remove last activity</button>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <button type="submit" id="submit-activity" class="btn btn-primary">Submit</button>
+                                </div>
+                                <div class="col">
+                                    <button id="remove-activity" class="btn btn-danger">Remove Last Activity</button>
                                 </div>
                             </div>
                         </form>
@@ -149,9 +160,10 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-12" style="height: 300px;">
-                        
-                            <canvas id="chart-canvas" width="400" height="100" aria-label="This is where the productivity chart should be" role="img"></canvas>
-                        
+
+                        <canvas id="chart-canvas" width="400" height="100"
+                            aria-label="This is where the productivity chart should be" role="img"></canvas>
+
                     </div>
                 </div>
             </div>
