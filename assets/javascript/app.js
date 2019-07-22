@@ -229,25 +229,19 @@ $(document).ready(function () {
 
     })
 
-    $('#remove-activity').on('click', function (e) {
-        e.preventDefault()
-        console.log('you clicked me')
-        removeData(chart, newActivity.name, newActivity.duration)
-    })
-
     //dark mode button
     $("#dark-mode").on("click", function () {
         if ($("#css-link").hasClass("dark-on")) {
             $("#css-link").removeAttr("href");
             $("#css-link").attr("href", "assets/css/bootstrap.min.css");
-            $("#dark-mode").text("Dark Mode");
+            $("#mode-text").text("Dark Mode");
             $("#css-link").removeClass("dark-on");
         }
 
         else {
             $("#css-link").removeAttr("href");
             $("#css-link").attr("href", "assets/css/bootstrap.dark.css");
-            $("#dark-mode").text("Light Mode");
+            $("#mode-text").text("Light Mode");
             $("#css-link").attr("class", "dark-on")
         }
     })
