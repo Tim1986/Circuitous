@@ -59,7 +59,6 @@ var newActivity = {
 //     chart.update();
 // }
 
-
 var colors = [
     'rgba(255, 99, 132, 1)',
     'rgba(54, 162, 235, 1)',
@@ -83,7 +82,7 @@ var colors = [
 var data = {
     labels: [],
     datasets: [{
-        label: 'Activitie Durations',
+        label: 'Activity Durations',
         backgroundColor: colors,
         // borderColor: 'rgb(255, 00, 132)',
         data: []
@@ -135,7 +134,7 @@ $(document).ready(function () {
             else {
                 //calculates duration
                 $("#activity-duration").val(newActivity.getDuration());
-                $("#get-duration").attr("class", "clear-duration");
+                $("#get-duration").addClass("clear-duration");
                 //turns the button into a clear button
                 $("#get-duration").text("Clear Duration")
             }
@@ -341,6 +340,5 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     });
-
     calendar.render();
 })
