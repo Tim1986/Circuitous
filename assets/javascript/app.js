@@ -46,7 +46,7 @@ var newActivity = {
 }
 
 // functions for adding and removing activities
-function addData(chart, label, data) {
+function addData(chart, actObj) {
     chart.data.labels.push(label);
     chart.data.datasets.forEach((dataset) => {
         dataset.data.push(data);
@@ -65,12 +65,7 @@ function removeData(chart) {
     chart.update();
 }
 
-var tempArr = []
 
-var placeHolder = {
-    duration: 100 - (tempArr.reduce(function (acc, val) { return acc + val; }, 0)),
-    name: 'unscheduled time',
-}
 var colors = [
     'rgba(255, 99, 132, 1)',
     'rgba(54, 162, 235, 1)',
@@ -257,10 +252,15 @@ $(document).ready(function () {
             // This grabs the stored, stringified array from local storage and unstringifies it
             var getArray = JSON.parse(localStorage.getItem('activityList'));
 
-            // This is looping through each object in the array and running the addData function with each object's name and duration
-            for (var i = 0; i < getArray.length; i++) {
-                addData(chart, getArray[i].name, parseInt(getArray[i].duration));
+            var newActObj = {
+                name: newActivity.name,
+                start: newActivity.start,
+                duration: newActivity.duration,
+                end: newActivity.end,
             }
+            
+            addData(chart, newActObj);
+            
 
             //clears form
             $("#activity-name").val("");
