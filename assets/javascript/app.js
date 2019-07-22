@@ -17,10 +17,10 @@ var newActivity = {
         }
         //if they put in an end time past midnight
         if (diffHour < 0) {
-            $('#submit-activity').on(click, function(){
+            $('#submit-activity').on(click, function () {
                 $(".bg-modal").style.display = 'flex';
             });
-            $('.close').on(click, function(){
+            $('.close').on(click, function () {
                 $(".bg-modal").style.display = 'none';
             });
             $("#start-time").val("");
@@ -167,75 +167,75 @@ $(document).ready(function () {
     })
 
     //when user clicks submit
-        $("#submit-activity").on("click", function (event) {
-            event.preventDefault();
+    $("#submit-activity").on("click", function (event) {
+        event.preventDefault();
 
-            //submit click won't set any variables if there's no activity name
-            if (($("#activity-name").val().trim()) === "") {
-                    document.querySelector('.bg-modal').style.display = 'flex';
-                document.querySelector('.close').addEventListener('click', function(){
-                    document.querySelector('.bg-modal').style.display = 'none';
-                });
-                return;
+        //submit click won't set any variables if there's no activity name
+        if (($("#activity-name").val().trim()) === "") {
+            document.querySelector('.bg-modal').style.display = 'flex';
+            document.querySelector('.close').addEventListener('click', function () {
+                document.querySelector('.bg-modal').style.display = 'none';
+            });
+            return;
+        }
+        //or if there's no date and "daily" isn't checked
+        else if ((($("#activity-date").val().trim()) === "") && (!$("#recurring").is(":checked"))) {
+            document.querySelector('.bg-modal').style.display = 'flex';
+            document.querySelector('.close').addEventListener('click', function () {
+                document.querySelector('.bg-modal').style.display = 'none';
+            });;
+            return;
+        }
+        //or if there's no start time
+        else if (($("#start-time").val().trim()) === "") {
+            document.querySelector('.bg-modal').style.display = 'flex';
+            document.querySelector('.close').addEventListener('click', function () {
+                document.querySelector('.bg-modal').style.display = 'none';
+            });
+            return;
+        }
+
+        else {
+
+            // We're going to push our newActivity object into here
+            var activityList = []
+
+            //pulls activity info
+            newActivity.date = $("#activity-date").val().trim()
+            newActivity.start = $("#start-time").val().trim()
+            newActivity.name = $("#activity-name").val().trim()
+            newActivity.end = $("#end-time").val().trim()
+            newActivity.description = $("#activity-description").val().trim()
+            newActivity.daily = false
+            var tempDuration = $("#activity-duration").val().trim();
+
+            //runs getDuration if they put in a start & end but didnt finish
+            if (($("#activity-duration").val("") === "") &&
+                ($("#start-time").val("") !== "") && ($("#end-time").val("") !== "")) {
+                newActivity.duration = newActivity.getDuration()
+                console.log("i'm here!")
             }
-            //or if there's no date and "daily" isn't checked
-            else if ((($("#activity-date").val().trim()) === "") && (!$("#recurring").is(":checked"))) {
-                document.querySelector('.bg-modal').style.display = 'flex';
-                document.querySelector('.close').addEventListener('click', function(){
-                    document.querySelector('.bg-modal').style.display = 'none';
-                });;
-                return;
-            }
-            //or if there's no start time
-            else if (($("#start-time").val().trim()) === "") {
-                document.querySelector('.bg-modal').style.display = 'flex';
-                document.querySelector('.close').addEventListener('click', function(){
-                    document.querySelector('.bg-modal').style.display = 'none';
-                });
-                return;
+            //pulls duration from the box if they input it and a start time manually
+            if (($("#activity-duration").val("") !== "") && ($("#start-time").val("") !== "")) {
+                newActivity.duration = tempDuration;
             }
 
-            else {
+            if ($("#recurring").is(":checked")) {
+                newActivity.daily = true;
+            }
 
-                // We're going to push our newActivity object into here
-                var activityList = []
+            // We're pushing newActivity into the array, stringifying the array, then locally storing the array
+            activityList.push(newActivity)
+            activityList = activityList.concat(JSON.parse(localStorage.getItem('activityList') || '[]'));
+            localStorage.setItem("activityList", JSON.stringify(activityList));
 
-                //pulls activity info
-                newActivity.date = $("#activity-date").val().trim()
-                newActivity.start = $("#start-time").val().trim()
-                newActivity.name = $("#activity-name").val().trim()
-                newActivity.end = $("#end-time").val().trim()
-                newActivity.description = $("#activity-description").val().trim()
-                newActivity.daily = false
-                var tempDuration = $("#activity-duration").val().trim();
+            // This grabs the stored, stringified array from local storage and unstringifies it
+            var getArray = JSON.parse(localStorage.getItem('activityList'));
 
-                //runs getDuration if they put in a start & end but didnt finish
-                if (($("#activity-duration").val("") === "") &&
-                    ($("#start-time").val("") !== "") && ($("#end-time").val("") !== "")) {
-                    newActivity.duration = newActivity.getDuration()
-                    console.log("i'm here!")
-                }
-                //pulls duration from the box if they input it and a start time manually
-                if (($("#activity-duration").val("") !== "") && ($("#start-time").val("") !== "")) {
-                    newActivity.duration = tempDuration;
-                }
-
-                if ($("#recurring").is(":checked")) {
-                    newActivity.daily = true;
-                }
-
-                // We're pushing newActivity into the array, stringifying the array, then locally storing the array
-                activityList.push(newActivity)
-                activityList = activityList.concat(JSON.parse(localStorage.getItem('activityList') || '[]'));
-                localStorage.setItem("activityList", JSON.stringify(activityList));
-
-                // This grabs the stored, stringified array from local storage and unstringifies it
-                var getArray = JSON.parse(localStorage.getItem('activityList'));
-
-                // This is looping through each object in the array and running the addData function with each object's name and duration
-                for (var i = 0; i < getArray.length; i++) {
-                    addData(chart, getArray[i].name, parseInt(getArray[i].duration))
-                }
+            // This is looping through each object in the array and running the addData function with each object's name and duration
+            for (var i = 0; i < getArray.length; i++) {
+                addData(chart, getArray[i].name, parseInt(getArray[i].duration))
+            }
 
             var newActObj = {
                 name: newActivity.name,
@@ -243,17 +243,13 @@ $(document).ready(function () {
                 duration: newActivity.duration,
                 end: newActivity.end,
             }
-            
+
             addData(chart, newActObj);
-            
 
-        })
 
-    $('#remove-activity').on('click', function (e) {
-        e.preventDefault()
-        console.log('you clicked me')
-        removeData(chart, newActivity.name, newActivity.duration)
-    })
+        }
+    });
+
 
     //dark mode button
     $("#dark-mode").on("click", function () {
@@ -276,37 +272,37 @@ $(document).ready(function () {
 
 document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar-goes-here');
-    
+
     var calendar = new FullCalendar.Calendar(calendarEl, {
-      plugins: [ 'dayGrid', 'list', 'interaction' ],
-      editable: true,
-      defaultView: 'dayGridMonth',
-      header: {
-        center: 'addEventButton, listDay, dayGridWeek, dayGridMonth'
-      },
-      customButtons: {
-        addEventButton: {
-          text: 'update calendar...',
-          click: function() {            
-            var dateStr = $("#activity-date").val().trim();
-            //console.log(dateStr)            
-            // Gets stored data and parse it back
-            var getArray = JSON.parse(localStorage.getItem('activityList'));
-            console.log(getArray)
-            var date = new Date(dateStr + 'T00:00:00'); // will be in local time            
-            for (var i = 0; i < getArray.length; i++) {
-                calendar.addEvent({
-                    title: getArray[i].name,
-                    start: getArray[i].date + " " + getArray[i].start,  
-                    end: getArray[i].date + " " + getArray[i].end,              
-                    allDay: false,
-                    });
-                }              
+        plugins: ['dayGrid', 'list', 'interaction'],
+        editable: true,
+        defaultView: 'dayGridMonth',
+        header: {
+            center: 'addEventButton, listDay, dayGridWeek, dayGridMonth'
+        },
+        customButtons: {
+            addEventButton: {
+                text: 'update calendar...',
+                click: function () {
+                    var dateStr = $("#activity-date").val().trim();
+                    //console.log(dateStr)            
+                    // Gets stored data and parse it back
+                    var getArray = JSON.parse(localStorage.getItem('activityList'));
+                    console.log(getArray)
+                    var date = new Date(dateStr + 'T00:00:00'); // will be in local time            
+                    for (var i = 0; i < getArray.length; i++) {
+                        calendar.addEvent({
+                            title: getArray[i].name,
+                            start: getArray[i].date + " " + getArray[i].start,
+                            end: getArray[i].date + " " + getArray[i].end,
+                            allDay: false,
+                        });
+                    }
+                }
             }
         }
-      }
     });
-  
+
     calendar.render();
 
 
