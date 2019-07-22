@@ -5,13 +5,10 @@ var ctx = document.getElementById('chart-canvas').getContext('2d');
 //form input
 var newActivity = {
     getDuration: function () {
-        //pulls start and end info
-        console.log("getDuration is running");
-        //removes the : in the timestamps and finds the difference
+        //removes the : in the start & end timestamps and finds the difference
         var arrStart = $("#start-time").val().trim().split(":");
         var arrEnd = $("#end-time").val().trim().split(":");
         var diffHour = parseInt(arrEnd[0]) - parseInt(arrStart[0]);
-        console.log(diffHour);
         if (parseInt(arrEnd[1]) < parseInt(arrStart[1])) {
             parseInt(arrEnd[1]) + 60;
         }
@@ -22,7 +19,6 @@ var newActivity = {
             $("#end-time").val("");
         }
         var diffMin = parseInt(arrEnd[1]) - parseInt(arrStart[1]);
-        console.log(diffMin);
         if (diffMin < 0) {
             diffHour--;
             diffMin = (60 + diffMin);
@@ -42,7 +38,7 @@ var newActivity = {
         }
         //sets the difference as the duration
         var duration = diffHour + ":" + diffMin;
-        console.log("duration " + duration);
+        console.log("getDuration calculated " + duration);
         return duration;
 
     }
@@ -70,6 +66,7 @@ function removeData(chart) {
 }
 
 var tempArr = []
+
 var placeHolder = {
     duration: 100 - (tempArr.reduce(function (acc, val) { return acc + val; }, 0)),
     name: 'unscheduled time',
@@ -124,23 +121,22 @@ $(document).ready(function () {
 
         //if the button is currently Clear Duration
         if ($("#get-duration").hasClass("clear-duration") === true) {
-            console.log("it's a clear button");
+            console.log("Clear Duration");
             $("#get-duration").removeClass("clear-duration");
             $("#activity-duration").val("");
             $("#start-time").val("");
             $("#end-time").val("");
-            $("#get-duration").text("Get Duration");
+            $("#get-duration").text("Duration*");
         }
         else {
             //keeps Get Duration from running with no input
             if (($("#start-time").val() === "") || ($("#end-time").val() === "")) {
-                console.log("NO BLANKS")
+                console.log("Please input start and end time")
             }
             else {
-                console.log("yay no blanks");
                 //calculates duration
                 $("#activity-duration").val(newActivity.getDuration());
-                $("#get-duration").attr("class", "clear-duration");
+                $("#get-duration").addClass("clear-duration");
                 //turns the button into a clear button
                 $("#get-duration").text("Clear Duration")
             }
@@ -153,17 +149,13 @@ $(document).ready(function () {
 
         //submit click won't set any variables if there's no activity name
         if (($("#activity-name").val().trim()) === "") {
-            console.log("please input an activity name")
+            console.log("Please input an Activity Name");
             return;
         }
-        //or if there's no date and "daily" isn't checked
-        else if ((($("#activity-date").val().trim()) === "") && (!$("#recurring").is(":checked"))) {
-            console.log("please either select daily or input a date");
-            return;
-        }
+
         //or if there's no start time
         else if (($("#start-time").val().trim()) === "") {
-            console.log("please input a start and end time or start time and duration");
+            console.log("Please input a Start and End Time or Start time and Duration");
             return;
         }
 
@@ -173,27 +165,77 @@ $(document).ready(function () {
             var activityList = []
 
             //pulls activity info
-            newActivity.date = $("#activity-date").val().trim()
             newActivity.start = $("#start-time").val().trim()
             newActivity.name = $("#activity-name").val().trim()
-            newActivity.end = $("#end-time").val().trim()
+            // newActivity.end = $("#end-time").val().trim()
             newActivity.description = $("#activity-description").val().trim()
-            newActivity.daily = false
             var tempDuration = $("#activity-duration").val().trim();
 
             //runs getDuration if they put in a start & end but didnt finish
             if (($("#activity-duration").val("") === "") &&
                 ($("#start-time").val("") !== "") && ($("#end-time").val("") !== "")) {
                 newActivity.duration = newActivity.getDuration()
-                console.log("i'm here!")
             }
             //pulls duration from the box if they input it and a start time manually
             if (($("#activity-duration").val("") !== "") && ($("#start-time").val("") !== "")) {
                 newActivity.duration = tempDuration;
             }
+            //calculates and end time if there's a start and duration
+            if ($("#end-time").val() === "") {
+                console.log("calculating end time...")
+                var newStart = newActivity.start.split(":");
+                var newDur = newActivity.duration.split(":");
+                console.log(newStart);
+                console.log(newDur);
+                var addHour = parseInt(newStart[0]) + parseInt(newDur[0]);
+                console.log(addHour + "is the hours");
+                if (addHour > 24) {
+                    console.log("PLEASE ONLY EVENTS COMPLETED BEFORE MIDNIGHT")
+                    return;
+                }
 
-            if ($("#recurring").is(":checked")) {
-                newActivity.daily = true;
+                else {
+                    if (addHour.toString().length === 1) {
+                        addHour = "0" + addHour.toString();
+                        console.log("we added 0 now it's "+addHour);
+                    }
+                    else {
+                        addHour.toString();
+                        console.log("no zero needed "+addHour);
+                    }
+                }
+
+                var addMin = parseInt(newStart[1]) + parseInt(newDur[1]);
+                console.log("right now addMin is "+addMin);
+                
+                if (addMin > 60) {
+                    addMin = addMin - 60;
+                    console.log("math! changed it to "+addMin);
+                }
+
+                if (addMin.toString().length === 1) {
+                    addMin = "0" + addMin.toString();
+                    console.log("had to embiggen it to "+addMin);
+                }
+                else {
+                    addMin.toString();
+                }
+
+                //sets the new end time
+                newActivity.end = addHour + ":" + addMin;
+                console.log("we calculated " + newActivity.end + " as the end time");
+            }
+
+            else if ($("#end-time").val() !== "") {
+                newActivity.end = $("#end-time").val().trim();
+            }
+
+            //uses moment.js to set today's date if they left Date blank
+            if ($("#activity-date").val() === "") {
+                newActivity.date = moment().format("YYYY-MM-DD");
+            }
+            else {
+                newActivity.date = $("#activity-date").val().trim();
             }
 
             // We're pushing newActivity into the array, stringifying the array, then locally storing the array
@@ -206,7 +248,7 @@ $(document).ready(function () {
 
             // This is looping through each object in the array and running the addData function with each object's name and duration
             for (var i = 0; i < getArray.length; i++) {
-                addData(chart, getArray[i].name, parseInt(getArray[i].duration))
+                addData(chart, getArray[i].name, parseInt(getArray[i].duration));
             }
 
             //clears form
@@ -216,15 +258,15 @@ $(document).ready(function () {
             $("#end-time").val("");
             $("#activity-duration").val("");
             $("#activity-description").val("");
-            $("#checkboxId").prop("checked", false);
             $("#get-duration").text("Get Duration");
+            $("#get-duration").removeClass("clear-duration");
 
-            console.log("name " + newActivity.name);
-            console.log("date " + newActivity.date);
-            console.log("start time " + newActivity.start);
-            console.log("duration " + newActivity.duration);
-            console.log("description " + newActivity.description);
-            console.log("daily reoccurance is " + newActivity.daily);
+            console.log("Name: " + newActivity.name);
+            console.log("Date: " + newActivity.date);
+            console.log("Start time: " + newActivity.start);
+            console.log("End Time: " + newActivity.end);
+            console.log("Duration: " + newActivity.duration);
+            console.log("Description: " + newActivity.description);
         }
 
     })
