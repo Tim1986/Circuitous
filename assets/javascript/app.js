@@ -235,6 +235,23 @@ $(document).ready(function () {
         removeData(chart, newActivity.name, newActivity.duration)
     })
 
+    //dark mode button
+    $("#dark-mode").on("click", function () {
+        if ($("#css-link").hasClass("dark-on")) {
+            $("#css-link").removeAttr("href");
+            $("#css-link").attr("href", "assets/css/bootstrap.min.css");
+            $("#dark-mode").text("Dark Mode");
+            $("#css-link").removeClass("dark-on");
+        }
+
+        else {
+            $("#css-link").removeAttr("href");
+            $("#css-link").attr("href", "assets/css/bootstrap.dark.css");
+            $("#dark-mode").text("Light Mode");
+            $("#css-link").attr("class", "dark-on")
+        }
+    })
+
 })
 
 document.addEventListener('DOMContentLoaded', function () {
