@@ -46,30 +46,18 @@ var newActivity = {
         var duration = diffHour + ":" + diffMin;
         console.log("getDuration calculated " + duration);
         return duration;
-
     }
-
 }
 
-// functions for adding and removing activities
-function addData(chart, actObj) {
-    chart.data.labels.push(label);
-    chart.data.datasets.forEach((dataset) => {
-        dataset.data.push(data);
-        tempArr.push(data)
-    });
-    chart.update();
-}
-
-function removeData(chart) {
-    chart.data.labels.pop();
-    chart.data.datasets.forEach((dataset) => {
-        dataset.data.pop();
-        tempArr.pop()
-
-    });
-    chart.update();
-}
+// // functions for adding and removing activities
+// function addData(chart, actObj) {
+//     chart.data.labels.push(label);
+//     chart.data.datasets.forEach((dataset) => {
+//         dataset.data.push(data);
+//         tempArr.push(data)
+//     });
+//     chart.update();
+// }
 
 var colors = [
     'rgba(255, 99, 132, 1)',
@@ -131,7 +119,7 @@ $(document).ready(function () {
 
         //if the button is currently Clear Duration
         if ($("#get-duration").hasClass("clear-duration") === true) {
-            console.log("clear duration");
+            console.log("Clear Duration");
             $("#get-duration").removeClass("clear-duration");
             $("#activity-duration").val("");
             $("#start-time").val("");
@@ -159,6 +147,7 @@ $(document).ready(function () {
 
         //submit click won't set any variables if there's no activity name
         if (($("#activity-name").val().trim()) === "") {
+            console.log("Please input an activity name")
             document.querySelector('.bg-modal').style.display = 'flex';
             document.querySelector('.close').addEventListener('click', function () {
                 document.querySelector('.bg-modal').style.display = 'none';
@@ -200,134 +189,122 @@ $(document).ready(function () {
             if (($("#activity-duration").val("") === "") &&
                 ($("#start-time").val("") !== "") && ($("#end-time").val("") !== "")) {
                 newActivity.duration = newActivity.getDuration()
-            }
+                }
             //pulls duration from the box if they input it and a start time manually
             if (($("#activity-duration").val("") !== "") && ($("#start-time").val("") !== "")) {
                 newActivity.duration = tempDuration;
-            }
 
-            //calculates and end time if there's a start and duration
-            if ($("#end-time").val() === "") {
-                console.log("calculating end time...")
-                var newStart = newActivity.start.split(":");
-                var newDur = newActivity.duration.split(":");
-                console.log(newStart);
-                console.log(newDur);
-                var addHour = parseInt(newStart[0]) + parseInt(newDur[0]);
-                console.log(addHour + "is the hours");
-                if (addHour > 24) {
-                    alert("PLEASE ONLY EVENTS COMPLETED BEFORE MIDNIGHT");
-                    return;
                 }
+//             if ($("#end-time").val() === "") {
+//                 console.log("calculating end time...")
+//                 var newStart = newActivity.start.split(":");
+//                 var newDur = newActivity.duration.split(":");
+//                 console.log(newStart);
+//                 console.log(newDur);
+//                 var addHour = parseInt(newStart[0]) + parseInt(newDur[0]);
+//                 console.log(addHour + "is the hours");
 
-                else {
-                    if (addHour.toString().length === 1) {
-                        addHour = "0" + addHour.toString();
-                        console.log("we added 0 now it's " + addHour);
-                    }
-                    else {
-                        addHour.toString();
-                        console.log("no zero needed " + addHour);
-                    }
-                }
+//                 if (addHour > 24) {
+//                     alert("PLEASE ONLY EVENTS COMPLETED BEFORE MIDNIGHT");
+//                     return;
+//                     }
+            
+//             if ($("#recurring").is(":checked")) {
+//                 newActivity.daily = true;
+//                 }
+//             else {
+//                 if (addHour.toString().length === 1) {
+//                     addHour = "0" + addHour.toString();
+//                     console.log("we added 0 now it's " + addHour);
+//                     }
+//                 else {
+//                     addHour.toString();
+//                     console.log("no zero needed " + addHour);
+//                     }
+//                 }
+//             var addMin = parseInt(newStart[1]) + parseInt(newDur[1]);
+//             console.log("right now addMin is " + addMin);
 
-                var addMin = parseInt(newStart[1]) + parseInt(newDur[1]);
-                console.log("right now addMin is " + addMin);
+//             if (addMin > 60) {
+//                 addMin = addMin - 60;
+//                 console.log("math! changed it to " + addMin);
+//                 }
 
-                if (addMin > 60) {
-                    addMin = addMin - 60;
-                    console.log("math! changed it to " + addMin);
-                }
-
-                if (addMin.toString().length === 1) {
-                    addMin = "0" + addMin.toString();
-                    console.log("had to embiggen it to " + addMin);
-                }
-                else {
-                    addMin.toString();
-                }
-
-                //sets the new end time
-                newActivity.end = addHour + ":" + addMin;
-                console.log("we calculated " + newActivity.end + " as the end time");
-            }
-
-            else if ($("#end-time").val() !== "") {
-                newActivity.end = $("#end-time").val().trim();
-            }
-
-            //uses moment.js to set today's date if they left Date blank
-            if ($("#activity-date").val() === "") {
-                newActivity.date = moment().format("YYYY-MM-DD");
-            }
-            else {
-                newActivity.date = $("#activity-date").val().trim();
-            }
-
-
-            // We're pushing newActivity into the array, stringifying the array, then locally storing the array
-            activityList.push(newActivity)
-            activityList = activityList.concat(JSON.parse(localStorage.getItem('activityList') || '[]'));
-            localStorage.setItem("activityList", JSON.stringify(activityList));
-
-            // This grabs the stored, stringified array from local storage and unstringifies it
-            var getArray = JSON.parse(localStorage.getItem('activityList'));
-
-            // This is looping through each object in the array and running the addData function with each object's name and duration
-            for (var i = 0; i < getArray.length; i++) {
-                addData(chart, getArray[i].name, parseInt(getArray[i].duration))
-            }
-
-
-
-
-            var newActObj = {
-                name: newActivity.name,
-                start: newActivity.start,
-                duration: newActivity.duration,
-                end: newActivity.end,
-            }
-
-            addData(chart, newActObj);
-
- //clears form
-            $("#activity-name").val("");
-            $("#activity-date").val("")
-            $("#start-time").val("");
-            $("#end-time").val("");
-            $("#activity-duration").val("");
-            $("#activity-description").val("");
-            $("#get-duration").text("Get Duration");
-            $("#get-duration").removeClass("clear-duration");
-​
-            console.log("Name: " + newActivity.name);
-            console.log("Date: " + newActivity.date);
-            console.log("Start time: " + newActivity.start);
-            console.log("End Time: " + newActivity.end);
-            console.log("Duration: " + newActivity.duration);
-            console.log("Description: " + newActivity.description);
+//             if (addMin.toString().length === 1) {
+//                 addMin = "0" + addMin.toString();
+//                 console.log("had to embiggen it to " + addMin);
+//                 }
+//             else {
+//                 addMin.toString();
+//                 }
         
-​
+//             //sets the new end time
+//             newActivity.end = addHour + ":" + addMin;
+//             console.log("we calculated " + newActivity.end + " as the end time");
+//             }   
+// ​
+//         else if ($("#end-time").val() !== "") {
+//             newActivity.end = $("#end-time").val().trim();
+//         }
+
+//         //uses moment.js to set today's date if they left Date blank
+//         if ($("#activity-date").val() === "") {
+//             newActivity.date = moment().format("YYYY-MM-DD");
+//         }
+//         else {
+//             newActivity.date = $("#activity-date").val().trim();
+//         }
+
+        // We're pushing newActivity into the array, stringifying the array, then locally storing the array
+        activityList.push(newActivity)
+        activityList = activityList.concat(JSON.parse(localStorage.getItem('activityList') || '[]'));
+        localStorage.setItem("activityList", JSON.stringify(activityList));
+
+        // This grabs the stored, stringified array from local storage and unstringifies it
+        var getArray = JSON.parse(localStorage.getItem('activityList'));
+
+        // This is looping through each object in the array and running the addData function with each object's name and duration
+        for (var i = 0; i < getArray.length; i++) {
+            addData(chart, getArray[i].name, parseInt(getArray[i].duration))
         }
+
+        var newActObj = {
+            name: newActivity.name,
+            start: newActivity.start,
+            duration: newActivity.duration,
+            end: newActivity.end,
+        }
+
+        addData(chart, newActObj);
+
+        $("#activity-name").val("");
+        $("#activity-date").val("")
+        $("#start-time").val("");
+        $("#end-time").val("");
+        $("#activity-duration").val("");
+        $("#activity-description").val("");
+        $("#get-duration").text("Get Duration");
+        $("#get-duration").removeClass("clear-duration");
+    }
     });
 
 
-    //dark mode button
-    $("#dark-mode").on("click", function () {
-        if ($("#css-link").hasClass("dark-on")) {
-            $("#css-link").removeAttr("href");
-            $("#css-link").attr("href", "assets/css/bootstrap.min.css");
-            $("#dark-mode").text("Dark Mode");
-            $("#css-link").removeClass("dark-on");
-        }
+//dark mode button
+$("#dark-mode").on("click", function () {
+    if ($("#css-link").hasClass("dark-on")) {
+        $("#css-link").removeAttr("href");
+        $("#css-link").attr("href", "assets/css/bootstrap.min.css");
+        $("#dark-mode").text("Dark Mode");
+        $("#css-link").removeClass("dark-on");
+    }
 
-        else {
-            $("#css-link").removeAttr("href");
-            $("#css-link").attr("href", "assets/css/bootstrap.dark.css");
-            $("#dark-mode").text("Light Mode");
-            $("#css-link").attr("class", "dark-on")
-        }
-    })
+    else {
+        $("#css-link").removeAttr("href");
+        $("#css-link").attr("href", "assets/css/bootstrap.dark.css");
+        $("#dark-mode").text("Light Mode");
+        $("#css-link").attr("class", "dark-on")
+    }
+})
 
 })
 
@@ -363,9 +340,5 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     });
-
     calendar.render();
-
-
 })
-
