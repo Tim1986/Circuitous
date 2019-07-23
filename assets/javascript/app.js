@@ -4,6 +4,26 @@ var ctx = document.getElementById('chart-canvas').getContext('2d');
 
 //form input
 var newActivity = {
+    roundDuration: function (duration) {
+        //rounds duration up or down to a full hour
+        var roundDur = duration.split(":");
+        if (parseInt(roundDur[1]) > 30) {
+            var durHour = parseInt(roundDur[0]) + 1;
+            if (durHour.toString().length === 1) {
+                durHour = "0" + durHour.toString();
+            }
+            if (parseInt(durHour) < 1) {
+                durHour = "01";
+            }
+            var durMin = "00";
+            var roundedDuration = durHour + ":" + durMin;
+            return roundedDuration;
+        }
+        if (parseInt(roundDur[1]) < 31) {
+            var roundedDuration = roundDur[0] + ":00";
+            return roundedDuration;
+        }
+    },
     getDuration: function () {
         //pulls start and end info
         //removes the : in the timestamps and finds the difference
@@ -38,8 +58,7 @@ var newActivity = {
         }
         //sets the difference as the duration
         var duration = diffHour + ":" + diffMin;
-        console.log("getDuration calculated " + duration);
-        return duration;
+        return newActivity.roundDuration(duration);
     }
 }
 
@@ -89,25 +108,35 @@ var durationClockUnits = parseInt(convertedDuration[0])
 
     
 
-    
-    
+
+
+
+
     for (var i = 0; i < chartData.length; i++) {
-        
+
         if (i === startClockTime) {
-            
+
             if (durationClockUnits > 1) {
                 chartData[i] = parsedDuration;
                 chartLabels[i] = actObj.name;
                 colors[i] = actObj.newColor;
-                colorReplacement.splice(0,1)
-                
-            for (var j = 0; j < durationClockUnits; j++){
-                
-                if(j > 0){
-                    chartData.splice((i+j), 1, 0)
-                    chartLabels.splice((i+j), 1, 0)
-                    
+                colorReplacement.splice(0, 1)
+
+                for (var j = 0; j < durationClockUnits; j++) {
+
+                    if (j > 0) {
+                        chartData.splice((i + j), 1, 0)
+                        chartLabels.splice((i + j), 1, 0)
+
+                    }
                 }
+            } else {
+                chartData[i] = parsedDuration;
+                chartLabels[i] = actObj.name;
+                colors[i] = actObj.newColor;
+                colorReplacement.splice(0, 1)
+
+
             }
         } else {
             chartData[i] = parsedDuration;
@@ -117,10 +146,8 @@ var durationClockUnits = parseInt(convertedDuration[0])
             
             
         }
-    
     }
-}
-chart.update();
+    chart.update();
 }
 var newActObj = {
     name: '',
@@ -130,19 +157,19 @@ var newActObj = {
     end: '',
 }
 var colors = [
-    'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   
-    'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   
-    'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   
-    'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   
-    'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   
-    'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   
+    'rgb(242, 242, 242)', 'rgb(242, 242, 242)', 'rgb(242, 242, 242)', 'rgb(242, 242, 242)',
+    'rgb(242, 242, 242)', 'rgb(242, 242, 242)', 'rgb(242, 242, 242)', 'rgb(242, 242, 242)',
+    'rgb(242, 242, 242)', 'rgb(242, 242, 242)', 'rgb(242, 242, 242)', 'rgb(242, 242, 242)',
+    'rgb(242, 242, 242)', 'rgb(242, 242, 242)', 'rgb(242, 242, 242)', 'rgb(242, 242, 242)',
+    'rgb(242, 242, 242)', 'rgb(242, 242, 242)', 'rgb(242, 242, 242)', 'rgb(242, 242, 242)',
+    'rgb(242, 242, 242)', 'rgb(242, 242, 242)', 'rgb(242, 242, 242)', 'rgb(242, 242, 242)',
 ]
 var colorReplacement = [
 
-    'rgba(255, 99, 132, 1)',    'rgba(54, 162, 235, 1)',    'rgba(255, 206, 86, 1)',    'rgba(0, 128, 0, 1)',
-    'rgba(153, 102, 255, 1)',    'rgba(255, 0, 0, 1)',    'rgba(255, 159, 64, 1)',  'rgba(210, 180, 140, 1)',
-    'rgba(204, 204, 0, 1)',    'rgba(0, 100, 0, 1)',    'rgba(139, 0, 139, 1)',    'rgba(139, 0, 0, 1)',
-    'rgba(75, 192, 192, 1)',    'rgba(255, 140, 0, 1)',    'rgba(139, 69, 19, 1)',  'rgba(0, 0, 139, 1)',
+    'rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(0, 128, 0, 1)',
+    'rgba(153, 102, 255, 1)', 'rgba(255, 0, 0, 1)', 'rgba(255, 159, 64, 1)', 'rgba(210, 180, 140, 1)',
+    'rgba(204, 204, 0, 1)', 'rgba(0, 100, 0, 1)', 'rgba(139, 0, 139, 1)', 'rgba(139, 0, 0, 1)',
+    'rgba(75, 192, 192, 1)', 'rgba(255, 140, 0, 1)', 'rgba(139, 69, 19, 1)', 'rgba(0, 0, 139, 1)',
 
 ]
 
@@ -163,7 +190,7 @@ var chart = new Chart(ctx, {
     // The type of chart we want to create
     type: 'pie',
     data: data,
-    
+
     // Configuration options go here
     options: {
         legend: {
@@ -211,7 +238,6 @@ $(document).ready(function () {
 
         //if the button is currently Clear Duration
         if ($("#get-duration").hasClass("clear-duration") === true) {
-            console.log("Clear Duration");
             $("#get-duration").removeClass("clear-duration");
             $("#activity-duration").val("");
             $("#start-time").val("");
@@ -221,11 +247,15 @@ $(document).ready(function () {
         else {
             //keeps Get Duration from running with no input
             if (($("#start-time").val() === "") || ($("#end-time").val() === "")) {
-                console.log("Please input start and end time")
+                document.querySelector('.bg-modal').style.display = 'flex';
+                document.querySelector('.close').addEventListener('click', function () {
+                    document.querySelector('.bg-modal').style.display = 'none';
+                })
             }
             else {
                 //calculates duration
-                $("#activity-duration").val(newActivity.getDuration());
+                newActivity.duration = newActivity.getDuration()
+                $("#activity-duration").val(newActivity.duration);
                 $("#get-duration").addClass("clear-duration");
                 //turns the button into a clear button
                 $("#get-duration").text("Clear Duration")
@@ -239,24 +269,17 @@ $(document).ready(function () {
 
         //submit click won't set any variables if there's no activity name
         if (($("#activity-name").val().trim()) === "") {
-            console.log("Please input an activity name")
             document.querySelector('.bg-modal').style.display = 'flex';
             document.querySelector('.close').addEventListener('click', function () {
                 document.querySelector('.bg-modal').style.display = 'none';
             });
             return;
         }
-        //or if there's no date and "daily" isn't checked
-        else if ((($("#activity-date").val().trim()) === "") && (!$("#recurring").is(":checked"))) {
-            
-            
-            return;
-        }
         //or if there's no start time
         else if (($("#start-time").val().trim()) === "") {
             document.querySelector('.bg-modal').style.display = 'flex';
             document.querySelector('.close').addEventListener('click', function () {
-            document.querySelector('.bg-modal').style.display = 'none';
+                document.querySelector('.bg-modal').style.display = 'none';
             });
             return;
         }
@@ -270,79 +293,62 @@ $(document).ready(function () {
             newActivity.date = $("#activity-date").val().trim()
             newActivity.start = $("#start-time").val().trim()
             newActivity.name = $("#activity-name").val().trim()
-            newActivity.end = $("#end-time").val().trim()
             newActivity.description = $("#activity-description").val().trim()
-            newActivity.daily = false
             var tempDuration = $("#activity-duration").val().trim();
 
             //runs getDuration if they put in a start & end but didnt finish
-            if (($("#activity-duration").val("") === "") &&
-                ($("#start-time").val("") !== "") && ($("#end-time").val("") !== "")) {
-                newActivity.duration = newActivity.getDuration()
-                }
+            if (($("#activity-duration").val() === "") &&
+                ($("#start-time").val() !== "") && ($("#end-time").val() !== "")) {
+                newActivity.duration = newActivity.getDuration();
+            }
             //pulls duration from the box if they input it and a start time manually
-            if (($("#activity-duration").val("") !== "") && ($("#start-time").val("") !== "")) {
-                newActivity.duration = tempDuration;
-
-                }
+            if (($("#activity-duration").val() !== "") && ($("#start-time").val() !== "")) {
+                newActivity.duration = newActivity.roundDuration(tempDuration);
+            }
+            //calculates end time if they left it blank
             if ($("#end-time").val() === "") {
-                console.log("calculating end time...")
                 var newStart = newActivity.start.split(":");
                 var newDur = newActivity.duration.split(":");
-                console.log(newStart);
-                console.log(newDur);
                 var addHour = parseInt(newStart[0]) + parseInt(newDur[0]);
-                console.log(addHour + "is the hours");
-
                 if (addHour > 24) {
-                    alert("PLEASE ONLY EVENTS COMPLETED BEFORE MIDNIGHT");
+                    document.querySelector('.bg-modal').style.display = 'flex';
+                    document.querySelector('.close').addEventListener('click', function () {
+                        document.querySelector('.bg-modal').style.display = 'none';
+                    })
                     return;
-                    }
-            
-            if ($("#recurring").is(":checked")) {
-                newActivity.daily = true;
                 }
-            else {
-                if (addHour.toString().length === 1) {
-                    addHour = "0" + addHour.toString();
-                    console.log("we added 0 now it's " + addHour);
-                    }
                 else {
-                    addHour.toString();
-                    console.log("no zero needed " + addHour);
+                    if (addHour.toString().length === 1) {
+                        addHour = "0" + addHour.toString();
+                    }
+                    else {
+                        addHour.toString();
                     }
                 }
-            var addMin = parseInt(newStart[1]) + parseInt(newDur[1]);
-            console.log("right now addMin is " + addMin);
-
-            if (addMin > 60) {
-                addMin = addMin - 60;
-                console.log("math! changed it to " + addMin);
+                var addMin = parseInt(newStart[1]) + parseInt(newDur[1]);
+                if (addMin > 60) {
+                    addMin = addMin - 60;
                 }
-
-            if (addMin.toString().length === 1) {
-                addMin = "0" + addMin.toString();
-                console.log("had to embiggen it to " + addMin);
+                if (addMin.toString().length === 1) {
+                    addMin = "0" + addMin.toString();
                 }
+                else {
+                    addMin.toString();
+                }
+                //sets the new end time
+                newActivity.end = addHour + ":" + addMin;
+            }
+            else if ($("#end-time").val() !== "") {
+                newActivity.end = $("#end-time").val().trim();
+            }
+
+            //uses moment.js to set today's date if they left Date blank
+            if ($("#activity-date").val() === "") {
+                newActivity.date = moment().format("YYYY-MM-DD");
+            }
             else {
-                addMin.toString();
-                }
-        
-            //sets the new end time
-            newActivity.end = addHour + ":" + addMin;
-            console.log("we calculated " + newActivity.end + " as the end time");
-            }   
-        else if ($("#end-time").val() !== "") {
-            newActivity.end = $("#end-time").val().trim();
-        }
-
-        //uses moment.js to set today's date if they left Date blank
-        if ($("#activity-date").val() === "") {
-            newActivity.date = moment().format("YYYY-MM-DD");
-        }
-        else {
-            newActivity.date = $("#activity-date").val().trim();
-        }
+                newActivity.date = $("#activity-date").val().trim();
+            }
 
         // We're pushing newActivity into the array, stringifying the array, then locally storing the array
         activityList.push(newActivity)
@@ -363,8 +369,12 @@ $(document).ready(function () {
         
         // --------------------------------------------------------------------------END CHART CODE P2------------------------------------------------------------------
 
-        
-        
+        console.log(newActivity.name);
+        console.log(newActivity.date);
+        console.log(newActivity.start);
+        console.log(newActivity.end);
+        console.log(newActivity.duration);
+        console.log(newActivity.description);
         
         $("#activity-name").val("");
         $("#activity-date").val("")
@@ -380,22 +390,22 @@ $(document).ready(function () {
     });
 
 
-//dark mode button
-$("#dark-mode").on("click", function () {
-    if ($("#css-link").hasClass("dark-on")) {
-        $("#css-link").removeAttr("href");
-        $("#css-link").attr("href", "assets/css/bootstrap.min.css");
-        $("#dark-mode").text("Dark Mode");
-        $("#css-link").removeClass("dark-on");
-    }
+    //dark mode button
+    $("#dark-mode").on("click", function () {
+        if ($("#css-link").hasClass("dark-on")) {
+            $("#css-link").removeAttr("href");
+            $("#css-link").attr("href", "assets/css/bootstrap.min.css");
+            $("#dark-mode").text("Dark Mode");
+            $("#css-link").removeClass("dark-on");
+        }
 
-    else {
-        $("#css-link").removeAttr("href");
-        $("#css-link").attr("href", "assets/css/bootstrap.dark.css");
-        $("#dark-mode").text("Light Mode");
-        $("#css-link").attr("class", "dark-on")
-    }
-})
+        else {
+            $("#css-link").removeAttr("href");
+            $("#css-link").attr("href", "assets/css/bootstrap.dark.css");
+            $("#dark-mode").text("Light Mode");
+            $("#css-link").attr("class", "dark-on")
+        }
+    })
 
 })
 
@@ -426,7 +436,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             end: getArray[i].date + " " + getArray[i].end,
                             allDay: false,
                         });
-                        
+
                     }
                 }
             }
