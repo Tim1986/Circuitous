@@ -52,122 +52,95 @@ var newActivity = {
 // --------------------------------------------------------------------------------CHART CODE-----------------------------------------------------------------------------------
 
 let chartData = [
-    //here is 12:00am
-      (100/24),
-      (100/24),
-      (100/24),
-      (100/24),
-      (100/24),
-      (100/24),
-    //here is 6:00am
-      (100/24), 
-      (100/24),
-      (100/24),
-      (100/24),
-      (100/24),
-      (100/24),
-    //here is 12:00pm
-      (100/24),
-      (100/24),
-      (100/24),
-      (100/24),
-      (100/24),
-      (100/24),
-    //here is 6:00pm
-      (100/24),
-      (100/24),
-      (100/24),
-      (100/24),
-      (100/24),
-      (100/24),
+    //The pie chart is composed of 24, hour long segments at default
+    (100/24),   (100/24),   (100/24),    (100/24),
+    (100/24),   (100/24),   (100/24),    (100/24),
+    (100/24),   (100/24),   (100/24),    (100/24),
+    (100/24),   (100/24),   (100/24),    (100/24),
+    (100/24),   (100/24),   (100/24),    (100/24),
+    (100/24),   (100/24),   (100/24),    (100/24),
+   
     ]
 let chartLabels = [
     //here is 12:00am
-      "placeholder - 1 hr",
-      "placeholder - 1 hr",
-      "placeholder - 1 hr",
-      "placeholder - 1 hr",
-      "placeholder - 1 hr",
-      "placeholder - 1 hr",
-    //here is 6:00am
-      "placeholder - 1 hr", 
-      "placeholder - 1 hr",
-      "placeholder - 1 hr",
-      "placeholder - 1 hr",
-      "placeholder - 1 hr",
-      "placeholder - 1 hr",
-    //here is 12:00pm
-      "placeholder - 1 hr",
-      "placeholder - 1 hr",
-      "placeholder - 1 hr",
-      "placeholder - 1 hr",
-      "placeholder - 1 hr",
-      "placeholder - 1 hr",
-    //here is 6:00pm
-      "placeholder - 1 hr",
-      "placeholder - 1 hr",
-      "placeholder - 1 hr",
-      "placeholder - 1 hr",
-      "placeholder - 1 hr",
-      "placeholder - 1 hr",
+      "12:00 AM", "01:00 AM", "02:00 AM", "03:00 AM",
+      "04:00 AM", "05:00 AM", "06:00 AM", "07:00 AM",
+      "08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM",
+      "12:00 PM", "01:00 PM", "02:00 PM", "03:00 PM",
+      "04:00 PM", "05:00 PM", "06:00 PM", "07:00 PM", 
+      "08:00 PM", "09:00 PM", "10:00 PM", "11:00 PM",
     ]
-
-// functions for adding and removing activities
-function addData(chart, actObj) {
-    let convertedDuration = actObj.duration.split(":")
+    
+    // functions for adding and removing activities
+    function addData(chart, actObj) {
+        let convertedDuration = actObj.duration.split(":")
     let convertedStart = actObj.start.split(":")
     // let convertedEnd = actObj.end.split(":")
-
+    
     // var parsedStartHr = parseInt(convertedStart[0]) * (100/24)
     // var parsedEndHr = parseInt(convertedEnd[0]) * (100/24)
     var parsedDuration = parseInt(convertedDuration[0]) * (100/24)
-
+    
     var startClockTime = parseInt(convertedStart[0]);
     var durationClockUnits = parseInt(convertedDuration[0])
-
-
-
+    
+    
+    
+    
+    
     for (var i = 0; i < chartData.length; i++) {
-
+        
         if (i === startClockTime) {
             
             if (durationClockUnits > 1) {
-            chartData[i] = parsedDuration;
-            chartLabels[i] = actObj.name;
-           
-                for (var j = 0; j < durationClockUnits; j++){
-                    
-                    if(j > 0){
+                chartData[i] = parsedDuration;
+                chartLabels[i] = actObj.name;
+                colors[i] = actObj.newColor;
+                colorReplacement.splice(0,1)
+                
+            for (var j = 0; j < durationClockUnits; j++){
+                
+                if(j > 0){
                     chartData.splice((i+j), 1)
                     chartLabels.splice((i+j), 1)
-                    }
+                    
                 }
-            } else {
+            }
+        } else {
             chartData[i] = parsedDuration;
             chartLabels[i] = actObj.name;
-            }
+            colors[i] = actObj.newColor;
+            colorReplacement.splice(0,1)
+            
+            
         }
+    
     }
-    chart.update();
 }
-
+chart.update();
+}
+var newActObj = {
+    name: '',
+    description: '',
+    start: '',
+    duration: '',
+    end: '',
+}
 var colors = [
-    'rgba(255, 99, 132, 1)',
-    'rgba(54, 162, 235, 1)',
-    'rgba(255, 206, 86, 1)',
-    'rgba(0, 128, 0, 1)',
-    'rgba(153, 102, 255, 1)',
-    'rgba(255, 0, 0, 1)',
-    'rgba(255, 159, 64, 1)',
-    'rgba(210, 180, 140, 1)',
-    'rgba(0, 0, 139, 1)',
-    'rgba(204, 204, 0, 1)',
-    'rgba(0, 100, 0, 1)',
-    'rgba(139, 0, 139, 1)',
-    'rgba(139, 0, 0, 1)',
-    'rgba(75, 192, 192, 1)',
-    'rgba(255, 140, 0, 1)',
-    'rgba(139, 69, 19, 1)',
+    'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   
+    'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   
+    'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   
+    'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   
+    'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   
+    'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   'rgb(242, 242, 242)',   
+]
+var colorReplacement = [
+
+    'rgba(255, 99, 132, 1)',    'rgba(54, 162, 235, 1)',    'rgba(255, 206, 86, 1)',    'rgba(0, 128, 0, 1)',
+    'rgba(153, 102, 255, 1)',    'rgba(255, 0, 0, 1)',    'rgba(255, 159, 64, 1)',  'rgba(210, 180, 140, 1)',
+    'rgba(204, 204, 0, 1)',    'rgba(0, 100, 0, 1)',    'rgba(139, 0, 139, 1)',    'rgba(139, 0, 0, 1)',
+    'rgba(75, 192, 192, 1)',    'rgba(255, 140, 0, 1)',    'rgba(139, 69, 19, 1)',  'rgba(0, 0, 139, 1)',
+
 ]
 
 // The data for our dataset
@@ -175,9 +148,11 @@ var data = {
     labels: chartLabels,
     datasets: [{
         label: 'Activity Durations',
-        backgroundColor: colors,
-        // borderColor: 'rgb(255, 00, 132)',
-        data: chartData,
+        backgroundColor: colors.reverse(),
+        // borderColor: 'rgba(255, 00, 132)',
+        data: chartData.reverse(),
+        borderWidth: 0,
+
     }]
 }
 
@@ -185,11 +160,15 @@ var chart = new Chart(ctx, {
     // The type of chart we want to create
     type: 'pie',
     data: data,
-
+    
     // Configuration options go here
     options: {
+        legend: {
+            display: false
+        },
         rotation: -.5 * Math.PI,
-        borderWidth: 50,
+        borderWidth: 0,
+        borderAlign: 'inner',
         layout: {
             responsive: true,
             maintainAspectRatio: false,
@@ -261,7 +240,7 @@ $(document).ready(function () {
         else if (($("#start-time").val().trim()) === "") {
             document.querySelector('.bg-modal').style.display = 'flex';
             document.querySelector('.close').addEventListener('click', function () {
-                document.querySelector('.bg-modal').style.display = 'none';
+            document.querySelector('.bg-modal').style.display = 'none';
             });
             return;
         }
@@ -365,9 +344,11 @@ $(document).ready(function () {
         
         var newActObj = {
             name: newActivity.name,
+            description: newActivity.description,
             start: newActivity.start,
             duration: newActivity.duration,
             end: newActivity.end,
+            newColor: colorReplacement[0],
         }
 
         addData(chart, newActObj);
@@ -432,6 +413,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             end: getArray[i].date + " " + getArray[i].end,
                             allDay: false,
                         });
+                        
                     }
                 }
             }
