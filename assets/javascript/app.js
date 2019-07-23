@@ -85,7 +85,7 @@ let chartLabels = [
     var durationClockUnits = parseInt(convertedDuration[0])
     
     
-    
+
     
     
     for (var i = 0; i < chartData.length; i++) {
@@ -101,8 +101,8 @@ let chartLabels = [
             for (var j = 0; j < durationClockUnits; j++){
                 
                 if(j > 0){
-                    chartData.splice((i+j), 1)
-                    chartLabels.splice((i+j), 1)
+                    chartData.splice((i+j), 1, 0)
+                    chartLabels.splice((i+j), 1, 0)
                     
                 }
             }
@@ -344,6 +344,7 @@ $(document).ready(function () {
         var newActObj = {
             name: newActivity.name,
             description: newActivity.description,
+            date: newActivity.date,
             start: newActivity.start,
             duration: newActivity.duration,
             end: newActivity.end,
