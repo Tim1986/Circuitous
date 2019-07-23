@@ -103,7 +103,7 @@ let chartLabels = [
         } else {
             chartData[i] = parsedDuration;
             chartLabels[i] = actObj.name;
-            colors[i] = newColor;
+            colors[i] = actObj.newColor;
             colorReplacement.splice(0,1)
             
             
