@@ -12,11 +12,14 @@ var newActivity = {
             if (durHour.toString().length === 1) {
                 durHour = "0" + durHour.toString();
             }
+            if (parseInt(durHour) < 1) {
+                durHour = "01";
+            }
             var durMin = "00";
             var roundedDuration = durHour + ":" + durMin;
             return roundedDuration;
         }
-        else if (parseInt(roundDur[1]) < 31) {
+        if (parseInt(roundDur[1]) < 31) {
             var roundedDuration = roundDur[0] + ":00";
             return roundedDuration;
         }
@@ -32,12 +35,6 @@ var newActivity = {
         }
         //if they put in an end time past midnight
         if (diffHour < 0) {
-            $('#submit-activity').on(click, function () {
-                $(".bg-modal").style.display = 'flex';
-            });
-            $('.close').on(click, function () {
-                $(".bg-modal").style.display = 'none';
-            });
             $("#start-time").val("");
             $("#end-time").val("");
         }
@@ -203,7 +200,18 @@ var chart = new Chart(ctx, {
 
 $(document).ready(function () {
 
-    //when user clicks Get Duration
+    var  localArray = JSON.parse(localStorage.getItem('activityList'));
+    if (localArray !== null) {
+        console.log(localArray)
+        for (var i = 0; i < localArray.length; i++){
+            var tempArr = localArray[i]
+            tempArr.newColor = colorReplacement[0]
+            console.log(tempArr)
+            addData(chart, tempArr)
+
+        }
+    }
+ 
     $("#get-duration").on("click", function (event) {
         event.preventDefault();
 
@@ -246,7 +254,6 @@ $(document).ready(function () {
             });
             return;
         }
-
         //or if there's no start time
         else if (($("#start-time").val().trim()) === "") {
             document.querySelector('.bg-modal').style.display = 'flex';
@@ -322,50 +329,43 @@ $(document).ready(function () {
                 newActivity.date = $("#activity-date").val().trim();
             }
 
-            // We're pushing newActivity into the array, stringifying the array, then locally storing the array
-            activityList.push(newActivity)
-            activityList = activityList.concat(JSON.parse(localStorage.getItem('activityList') || '[]'));
-            localStorage.setItem("activityList", JSON.stringify(activityList));
+        // We're pushing newActivity into the array, stringifying the array, then locally storing the array
+        activityList.push(newActivity)
+        activityList = activityList.concat(JSON.parse(localStorage.getItem('activityList') || '[]'));
+        localStorage.setItem("activityList", JSON.stringify(activityList));
+        //-------------------------------------------------------------------------------CHART CODE P2---------------------------------------------------------------- 
+                
+                var newActObj = {
+                    name: newActivity.name,
+                    description: newActivity.description,
+                    date: newActivity.date,
+                    start: newActivity.start,
+                    duration: newActivity.duration,
+                    end: newActivity.end,
+                }
+        
+                addData(chart, newActObj);
+        
+        // --------------------------------------------------------------------------END CHART CODE P2------------------------------------------------------------------
 
-            // This grabs the stored, stringified array from local storage and unstringifies it
-            var getArray = JSON.parse(localStorage.getItem('activityList'));
-
-            // This is looping through each object in the array and running the addData function with each object's name and duration
-
-
-            //-------------------------------------------------------------------------------CHART CODE P2---------------------------------------------------------------- 
-
-            console.log(newActivity.name);
-            console.log(newActivity.date);
-            console.log(newActivity.start);
-            console.log(newActivity.end);
-            console.log(newActivity.duration);
-            console.log(newActivity.description);
-
-            var newActObj = {
-                name: newActivity.name,
-                description: newActivity.description,
-                date: newActivity.date,
-                start: newActivity.start,
-                duration: newActivity.duration,
-                end: newActivity.end,
-                newColor: colorReplacement[0],
-            }
-
-            addData(chart, newActObj);
-
-            // --------------------------------------------------------------------------END CHART CODE P2------------------------------------------------------------------
-
-            $("#activity-name").val("");
-            $("#activity-date").val("")
-            $("#start-time").val("");
-            $("#end-time").val("");
-            $("#activity-duration").val("");
-            $("#activity-description").val("");
-            $("#get-duration").text("Duration*");
-            $("#get-duration").removeClass("clear-duration");
-
-        }
+        console.log(newActivity.name);
+        console.log(newActivity.date);
+        console.log(newActivity.start);
+        console.log(newActivity.end);
+        console.log(newActivity.duration);
+        console.log(newActivity.description);
+        
+        $("#activity-name").val("");
+        $("#activity-date").val("")
+        $("#start-time").val("");
+        $("#end-time").val("");
+        $("#activity-duration").val("");
+        $("#activity-description").val("");
+        $("#get-duration").text("Get Duration");
+        $("#get-duration").removeClass("clear-duration");
+        
+        window.location.reload(true);
+    }
     });
 
 
