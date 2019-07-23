@@ -15,12 +15,6 @@ var newActivity = {
         }
         //if they put in an end time past midnight
         if (diffHour < 0) {
-            $('#submit-activity').on(click, function () {
-                $(".bg-modal").style.display = 'flex';
-            });
-            $('.close').on(click, function () {
-                $(".bg-modal").style.display = 'none';
-            });
             $("#start-time").val("");
             $("#end-time").val("");
         }
@@ -109,7 +103,7 @@ let chartLabels = [
         } else {
             chartData[i] = parsedDuration;
             chartLabels[i] = actObj.name;
-            colors[i] = actObj.newColor;
+            colors[i] = newColor;
             colorReplacement.splice(0,1)
             
             
@@ -187,7 +181,18 @@ var chart = new Chart(ctx, {
 
 $(document).ready(function () {
 
-    //when user clicks Get Duration
+    var  localArray = JSON.parse(localStorage.getItem('activityList'));
+    if (localArray !== null) {
+        console.log(localArray)
+        for (var i = 0; i < localArray.length; i++){
+            var tempArr = localArray[i]
+            tempArr.newColor = colorReplacement[0]
+            console.log(tempArr)
+            addData(chart, tempArr)
+
+        }
+    }
+ 
     $("#get-duration").on("click", function (event) {
         event.preventDefault();
 
@@ -230,10 +235,8 @@ $(document).ready(function () {
         }
         //or if there's no date and "daily" isn't checked
         else if ((($("#activity-date").val().trim()) === "") && (!$("#recurring").is(":checked"))) {
-            document.querySelector('.bg-modal').style.display = 'flex';
-            document.querySelector('.close').addEventListener('click', function () {
-                document.querySelector('.bg-modal').style.display = 'none';
-            });;
+            
+            
             return;
         }
         //or if there's no start time
@@ -332,29 +335,24 @@ $(document).ready(function () {
         activityList.push(newActivity)
         activityList = activityList.concat(JSON.parse(localStorage.getItem('activityList') || '[]'));
         localStorage.setItem("activityList", JSON.stringify(activityList));
-
-        // This grabs the stored, stringified array from local storage and unstringifies it
-        var getArray = JSON.parse(localStorage.getItem('activityList'));
-
-        // This is looping through each object in the array and running the addData function with each object's name and duration
-
-
-//-------------------------------------------------------------------------------CHART CODE P2---------------------------------------------------------------- 
+        //-------------------------------------------------------------------------------CHART CODE P2---------------------------------------------------------------- 
+                
+                var newActObj = {
+                    name: newActivity.name,
+                    description: newActivity.description,
+                    date: newActivity.date,
+                    start: newActivity.start,
+                    duration: newActivity.duration,
+                    end: newActivity.end,
+                }
         
-        var newActObj = {
-            name: newActivity.name,
-            description: newActivity.description,
-            date: newActivity.date,
-            start: newActivity.start,
-            duration: newActivity.duration,
-            end: newActivity.end,
-            newColor: colorReplacement[0],
-        }
+                addData(chart, newActObj);
+        
+        // --------------------------------------------------------------------------END CHART CODE P2------------------------------------------------------------------
 
-        addData(chart, newActObj);
-
-// --------------------------------------------------------------------------END CHART CODE P2------------------------------------------------------------------
-
+        
+        
+        
         $("#activity-name").val("");
         $("#activity-date").val("")
         $("#start-time").val("");
@@ -363,6 +361,8 @@ $(document).ready(function () {
         $("#activity-description").val("");
         $("#get-duration").text("Get Duration");
         $("#get-duration").removeClass("clear-duration");
+        
+        window.location.reload(true);
     }
     });
 
