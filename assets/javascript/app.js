@@ -74,79 +74,69 @@ let chartData = [
     (100/24),   (100/24),   (100/24),    (100/24),
  ]
 
-let resetData = chartData
-let chartLabels = [
-    //here is 12:00am
-      "12:00 AM", "01:00 AM", "02:00 AM", "03:00 AM",
-      "04:00 AM", "05:00 AM", "06:00 AM", "07:00 AM",
-      "08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM",
-      "12:00 PM", "01:00 PM", "02:00 PM", "03:00 PM",
-      "04:00 PM", "05:00 PM", "06:00 PM", "07:00 PM", 
-      "08:00 PM", "09:00 PM", "10:00 PM", "11:00 PM",
+ let chartLabels = [
+     //here is 12:00am
+     "12:00 AM", "01:00 AM", "02:00 AM", "03:00 AM",
+     "04:00 AM", "05:00 AM", "06:00 AM", "07:00 AM",
+     "08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM",
+     "12:00 PM", "01:00 PM", "02:00 PM", "03:00 PM",
+     "04:00 PM", "05:00 PM", "06:00 PM", "07:00 PM", 
+     "08:00 PM", "09:00 PM", "10:00 PM", "11:00 PM",
     ]
-let resetLabels = chartLabels
-
-function reset (){
-    chartLabels = resetData
-    chartLabels = resetLabels
-    localStorage.clear()
-    window.location.reload(true);
-}
     
-// functions for adding and removing activities
-function addData(chart, actObj) {
-    let convertedDuration = actObj.duration.split(":")
-let convertedStart = actObj.start.split(":")
-// let convertedEnd = actObj.end.split(":")
-
-// var parsedStartHr = parseInt(convertedStart[0]) * (100/24)
-// var parsedEndHr = parseInt(convertedEnd[0]) * (100/24)
-var parsedDuration = parseInt(convertedDuration[0]) * (100/24)
-
-var startClockTime = parseInt(convertedStart[0]);
-var durationClockUnits = parseInt(convertedDuration[0])
-
     
-
-
-
-
-
-    for (var i = 0; i < chartData.length; i++) {
-
-        if (i === startClockTime) {
-
-            if (durationClockUnits > 1) {
-                chartData[i] = parsedDuration;
+    
+    // functions for adding and removing activities
+    function addData(chart, actObj) {
+        let convertedDuration = actObj.duration.split(":")
+        let convertedStart = actObj.start.split(":")
+        // let convertedEnd = actObj.end.split(":")
+        
+        // var parsedStartHr = parseInt(convertedStart[0]) * (100/24)
+        // var parsedEndHr = parseInt(convertedEnd[0]) * (100/24)
+        var parsedDuration = parseInt(convertedDuration[0]) * (100/24)
+        
+        var startClockTime = parseInt(convertedStart[0]);
+        var durationClockUnits = parseInt(convertedDuration[0])
+        
+        
+        
+        
+        
+        
+       
+        for (var i = 0; i < chartData.length; i++) {
+            if (i === startClockTime) {
+                console.log(i)
+                
+                if (durationClockUnits > 1) {
+                    chartData[i] = parsedDuration;
                 chartLabels[i] = actObj.name;
                 colors[i] = actObj.newColor;
                 colorReplacement.splice(0, 1)
-
-                for (var j = 0; j < durationClockUnits; j++) {
-
-                    if (j > 0) {
-                        chartData.splice((i + j), 1, 0)
-                        chartLabels.splice((i + j), 1, 0)
-
-                    }
+                
+                    for (var j = 0; j < durationClockUnits; j++) {
+                        
+                            if (j > 0) {
+                                chartData.splice((i + j), 1, 0)
+                                chartLabels.splice((i + j), 1, 0)
+                                
+                            }
+                        }
+                } else {
+                    chartData[i] = parsedDuration;
+                    chartLabels[i] = actObj.name;
+                    colors[i] = actObj.newColor;
+                    colorReplacement.splice(0, 1)  
                 }
-            } else {
-                chartData[i] = parsedDuration;
-                chartLabels[i] = actObj.name;
-                colors[i] = actObj.newColor;
-                colorReplacement.splice(0, 1)
 
-
-            }
-        } else {
             chartData[i] = parsedDuration;
             chartLabels[i] = actObj.name;
             colors[i] = actObj.newColor;
             colorReplacement.splice(0,1)
-            
-            
-        }
+            }
     }
+    console.log(colors)
     chart.update();
 }
 var newActObj = {
@@ -164,14 +154,28 @@ var colors = [
     'rgb(242, 242, 242)', 'rgb(242, 242, 242)', 'rgb(242, 242, 242)', 'rgb(242, 242, 242)',
     'rgb(242, 242, 242)', 'rgb(242, 242, 242)', 'rgb(242, 242, 242)', 'rgb(242, 242, 242)',
 ]
-var colorReplacement = [
 
+ 
+var colorReplacement = [
+    
     'rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(0, 128, 0, 1)',
     'rgba(153, 102, 255, 1)', 'rgba(255, 0, 0, 1)', 'rgba(255, 159, 64, 1)', 'rgba(210, 180, 140, 1)',
     'rgba(204, 204, 0, 1)', 'rgba(0, 100, 0, 1)', 'rgba(139, 0, 139, 1)', 'rgba(139, 0, 0, 1)',
     'rgba(75, 192, 192, 1)', 'rgba(255, 140, 0, 1)', 'rgba(139, 69, 19, 1)', 'rgba(0, 0, 139, 1)',
-
+   
 ]
+console.log(colors)
+let colorsReset = colors
+let resetLabels = chartLabels
+let resetData = chartData
+
+function reset (){
+    chartLabels = resetData
+    chartLabels = resetLabels
+    colors = colorsReset
+    localStorage.clear()
+    window.location.reload(true);
+}
 
 // The data for our dataset
 var data = {
@@ -216,7 +220,7 @@ var chart = new Chart(ctx, {
 // --------------------------------------------------------- END CHART CODE----------------------------------------------------------------------
 
 $(document).ready(function () {
-
+    console.log(colors)
     var  localArray = JSON.parse(localStorage.getItem('activityList'));
     if (localArray !== null) {
         console.log(localArray)
@@ -228,10 +232,12 @@ $(document).ready(function () {
 
         }
     }
+    
     $('#reset-charts').on('click', function(){
         console.log('clicked you.')
         reset()
     })
+
 
     $("#get-duration").on("click", function (event) {
         event.preventDefault();
