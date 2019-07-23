@@ -53,8 +53,9 @@ let chartData = [
     (100/24),   (100/24),   (100/24),    (100/24),
     (100/24),   (100/24),   (100/24),    (100/24),
     (100/24),   (100/24),   (100/24),    (100/24),
-   
-    ]
+ ]
+
+let resetData = chartData
 let chartLabels = [
     //here is 12:00am
       "12:00 AM", "01:00 AM", "02:00 AM", "03:00 AM",
@@ -64,20 +65,28 @@ let chartLabels = [
       "04:00 PM", "05:00 PM", "06:00 PM", "07:00 PM", 
       "08:00 PM", "09:00 PM", "10:00 PM", "11:00 PM",
     ]
+let resetLabels = chartLabels
+
+function reset (){
+    chartLabels = resetData
+    chartLabels = resetLabels
+    localStorage.clear()
+    window.location.reload(true);
+}
     
-    // functions for adding and removing activities
-    function addData(chart, actObj) {
-        let convertedDuration = actObj.duration.split(":")
-    let convertedStart = actObj.start.split(":")
-    // let convertedEnd = actObj.end.split(":")
-    
-    // var parsedStartHr = parseInt(convertedStart[0]) * (100/24)
-    // var parsedEndHr = parseInt(convertedEnd[0]) * (100/24)
-    var parsedDuration = parseInt(convertedDuration[0]) * (100/24)
-    
-    var startClockTime = parseInt(convertedStart[0]);
-    var durationClockUnits = parseInt(convertedDuration[0])
-    
+// functions for adding and removing activities
+function addData(chart, actObj) {
+    let convertedDuration = actObj.duration.split(":")
+let convertedStart = actObj.start.split(":")
+// let convertedEnd = actObj.end.split(":")
+
+// var parsedStartHr = parseInt(convertedStart[0]) * (100/24)
+// var parsedEndHr = parseInt(convertedEnd[0]) * (100/24)
+var parsedDuration = parseInt(convertedDuration[0]) * (100/24)
+
+var startClockTime = parseInt(convertedStart[0]);
+var durationClockUnits = parseInt(convertedDuration[0])
+
     
 
     
@@ -103,7 +112,7 @@ let chartLabels = [
         } else {
             chartData[i] = parsedDuration;
             chartLabels[i] = actObj.name;
-            colors[i] = newColor;
+            colors[i] = actObj.newColor;
             colorReplacement.splice(0,1)
             
             
@@ -192,7 +201,11 @@ $(document).ready(function () {
 
         }
     }
- 
+    $('#reset-charts').on('click', function(){
+        console.log('clicked you.')
+        reset()
+    })
+
     $("#get-duration").on("click", function (event) {
         event.preventDefault();
 
