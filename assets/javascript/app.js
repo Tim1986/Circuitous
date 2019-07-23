@@ -15,12 +15,6 @@ var newActivity = {
         }
         //if they put in an end time past midnight
         if (diffHour < 0) {
-            $('#submit-activity').on(click, function () {
-                $(".bg-modal").style.display = 'flex';
-            });
-            $('.close').on(click, function () {
-                $(".bg-modal").style.display = 'none';
-            });
             $("#start-time").val("");
             $("#end-time").val("");
         }
@@ -109,7 +103,7 @@ let chartLabels = [
         } else {
             chartData[i] = parsedDuration;
             chartLabels[i] = actObj.name;
-            colors[i] = actObj.newColor;
+            colors[i] = newColor;
             colorReplacement.splice(0,1)
             
             
@@ -187,7 +181,18 @@ var chart = new Chart(ctx, {
 
 $(document).ready(function () {
 
-    //when user clicks Get Duration
+    var  localArray = JSON.parse(localStorage.getItem('activityList'));
+    if (localArray !== null) {
+        console.log(localArray)
+        for (var i = 0; i < localArray.length; i++){
+            var tempArr = localArray[i]
+            tempArr.newColor = colorReplacement[0]
+            console.log(tempArr)
+            addData(chart, tempArr)
+
+        }
+    }
+ 
     $("#get-duration").on("click", function (event) {
         event.preventDefault();
 
@@ -230,10 +235,8 @@ $(document).ready(function () {
         }
         //or if there's no date and "daily" isn't checked
         else if ((($("#activity-date").val().trim()) === "") && (!$("#recurring").is(":checked"))) {
-            document.querySelector('.bg-modal').style.display = 'flex';
-            document.querySelector('.close').addEventListener('click', function () {
-                document.querySelector('.bg-modal').style.display = 'none';
-            });;
+            
+            
             return;
         }
         //or if there's no start time
@@ -269,93 +272,87 @@ $(document).ready(function () {
                 newActivity.duration = tempDuration;
 
                 }
-//             if ($("#end-time").val() === "") {
-//                 console.log("calculating end time...")
-//                 var newStart = newActivity.start.split(":");
-//                 var newDur = newActivity.duration.split(":");
-//                 console.log(newStart);
-//                 console.log(newDur);
-//                 var addHour = parseInt(newStart[0]) + parseInt(newDur[0]);
-//                 console.log(addHour + "is the hours");
+            if ($("#end-time").val() === "") {
+                console.log("calculating end time...")
+                var newStart = newActivity.start.split(":");
+                var newDur = newActivity.duration.split(":");
+                console.log(newStart);
+                console.log(newDur);
+                var addHour = parseInt(newStart[0]) + parseInt(newDur[0]);
+                console.log(addHour + "is the hours");
 
-//                 if (addHour > 24) {
-//                     alert("PLEASE ONLY EVENTS COMPLETED BEFORE MIDNIGHT");
-//                     return;
-//                     }
+                if (addHour > 24) {
+                    alert("PLEASE ONLY EVENTS COMPLETED BEFORE MIDNIGHT");
+                    return;
+                    }
             
-//             if ($("#recurring").is(":checked")) {
-//                 newActivity.daily = true;
-//                 }
-//             else {
-//                 if (addHour.toString().length === 1) {
-//                     addHour = "0" + addHour.toString();
-//                     console.log("we added 0 now it's " + addHour);
-//                     }
-//                 else {
-//                     addHour.toString();
-//                     console.log("no zero needed " + addHour);
-//                     }
-//                 }
-//             var addMin = parseInt(newStart[1]) + parseInt(newDur[1]);
-//             console.log("right now addMin is " + addMin);
+            if ($("#recurring").is(":checked")) {
+                newActivity.daily = true;
+                }
+            else {
+                if (addHour.toString().length === 1) {
+                    addHour = "0" + addHour.toString();
+                    console.log("we added 0 now it's " + addHour);
+                    }
+                else {
+                    addHour.toString();
+                    console.log("no zero needed " + addHour);
+                    }
+                }
+            var addMin = parseInt(newStart[1]) + parseInt(newDur[1]);
+            console.log("right now addMin is " + addMin);
 
-//             if (addMin > 60) {
-//                 addMin = addMin - 60;
-//                 console.log("math! changed it to " + addMin);
-//                 }
+            if (addMin > 60) {
+                addMin = addMin - 60;
+                console.log("math! changed it to " + addMin);
+                }
 
-//             if (addMin.toString().length === 1) {
-//                 addMin = "0" + addMin.toString();
-//                 console.log("had to embiggen it to " + addMin);
-//                 }
-//             else {
-//                 addMin.toString();
-//                 }
+            if (addMin.toString().length === 1) {
+                addMin = "0" + addMin.toString();
+                console.log("had to embiggen it to " + addMin);
+                }
+            else {
+                addMin.toString();
+                }
         
-//             //sets the new end time
-//             newActivity.end = addHour + ":" + addMin;
-//             console.log("we calculated " + newActivity.end + " as the end time");
-//             }   
-// ​
-//         else if ($("#end-time").val() !== "") {
-//             newActivity.end = $("#end-time").val().trim();
-//         }
+            //sets the new end time
+            newActivity.end = addHour + ":" + addMin;
+            console.log("we calculated " + newActivity.end + " as the end time");
+            }   
+        else if ($("#end-time").val() !== "") {
+            newActivity.end = $("#end-time").val().trim();
+        }
 
-//         //uses moment.js to set today's date if they left Date blank
-//         if ($("#activity-date").val() === "") {
-//             newActivity.date = moment().format("YYYY-MM-DD");
-//         }
-//         else {
-//             newActivity.date = $("#activity-date").val().trim();
-//         }
+        //uses moment.js to set today's date if they left Date blank
+        if ($("#activity-date").val() === "") {
+            newActivity.date = moment().format("YYYY-MM-DD");
+        }
+        else {
+            newActivity.date = $("#activity-date").val().trim();
+        }
 
         // We're pushing newActivity into the array, stringifying the array, then locally storing the array
         activityList.push(newActivity)
         activityList = activityList.concat(JSON.parse(localStorage.getItem('activityList') || '[]'));
         localStorage.setItem("activityList", JSON.stringify(activityList));
-
-        // This grabs the stored, stringified array from local storage and unstringifies it
-        var getArray = JSON.parse(localStorage.getItem('activityList'));
-
-        // This is looping through each object in the array and running the addData function with each object's name and duration
-
-
-//-------------------------------------------------------------------------------CHART CODE P2---------------------------------------------------------------- 
+        //-------------------------------------------------------------------------------CHART CODE P2---------------------------------------------------------------- 
+                
+                var newActObj = {
+                    name: newActivity.name,
+                    description: newActivity.description,
+                    date: newActivity.date,
+                    start: newActivity.start,
+                    duration: newActivity.duration,
+                    end: newActivity.end,
+                }
         
-        var newActObj = {
-            name: newActivity.name,
-            description: newActivity.description,
-            date: newActivity.date,
-            start: newActivity.start,
-            duration: newActivity.duration,
-            end: newActivity.end,
-            newColor: colorReplacement[0],
-        }
+                addData(chart, newActObj);
+        
+        // --------------------------------------------------------------------------END CHART CODE P2------------------------------------------------------------------
 
-        addData(chart, newActObj);
-
-// --------------------------------------------------------------------------END CHART CODE P2------------------------------------------------------------------
-
+        
+        
+        
         $("#activity-name").val("");
         $("#activity-date").val("")
         $("#start-time").val("");
@@ -364,6 +361,8 @@ $(document).ready(function () {
         $("#activity-description").val("");
         $("#get-duration").text("Get Duration");
         $("#get-duration").removeClass("clear-duration");
+        
+        window.location.reload(true);
     }
     });
 
