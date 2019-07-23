@@ -2,6 +2,7 @@
 var ctx = $('#chart-canvas')
 var ctx = document.getElementById('chart-canvas').getContext('2d');
 
+
 //form input
 var newActivity = {
     roundDuration: function (duration) {
@@ -107,7 +108,6 @@ function addData(chart, actObj) {
 
     for (var i = 0; i < chartData.length; i++) {
         if (i === startClockTime) {
-            console.log(i)
 
             if (durationClockUnits > 1) {
                 chartData[i] = parsedDuration;
@@ -136,7 +136,6 @@ function addData(chart, actObj) {
             colorReplacement.splice(0, 1)
         }
     }
-    console.log(colors)
     chart.update();
 }
 var newActObj = {
@@ -164,7 +163,6 @@ var colorReplacement = [
     'rgba(75, 192, 192, 1)', 'rgba(255, 140, 0, 1)', 'rgba(139, 69, 19, 1)', 'rgba(0, 0, 139, 1)',
 
 ]
-console.log(colors)
 let colorsReset = colors
 let resetLabels = chartLabels
 let resetData = chartData
@@ -220,14 +218,11 @@ var chart = new Chart(ctx, {
 // --------------------------------------------------------- END CHART CODE----------------------------------------------------------------------
 
 $(document).ready(function () {
-    console.log(colors)
     var localArray = JSON.parse(localStorage.getItem('activityList'));
     if (localArray !== null) {
-        console.log(localArray)
         for (var i = 0; i < localArray.length; i++) {
             var tempArr = localArray[i]
             tempArr.newColor = colorReplacement[0]
-            console.log(tempArr)
             addData(chart, tempArr)
 
         }
@@ -241,7 +236,6 @@ $(document).ready(function () {
     });
 
     $('#reset-charts').on('click', function () {
-        console.log('clicked you.')
         reset()
     })
 
@@ -382,13 +376,6 @@ $(document).ready(function () {
 
             // --------------------------------------------------------------------------END CHART CODE P2------------------------------------------------------------------
 
-            console.log(newActivity.name);
-            console.log(newActivity.date);
-            console.log(newActivity.start);
-            console.log(newActivity.end);
-            console.log(newActivity.duration);
-            console.log(newActivity.description);
-
             $("#activity-name").val("");
             $("#activity-date").val("")
             $("#start-time").val("");
@@ -440,7 +427,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     //console.log(dateStr)            
                     // Gets stored data and parse it back
                     var getArray = JSON.parse(localStorage.getItem('activityList'));
-                    console.log(getArray)
                     var date = new Date(dateStr + 'T00:00:00'); // will be in local time            
                     for (var i = 0; i < getArray.length; i++) {
                         calendar.addEvent({
