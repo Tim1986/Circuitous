@@ -66,75 +66,75 @@ var newActivity = {
 
 let chartData = [
     //The pie chart is composed of 24, hour long segments at default
-    (100/24),   (100/24),   (100/24),    (100/24),
-    (100/24),   (100/24),   (100/24),    (100/24),
-    (100/24),   (100/24),   (100/24),    (100/24),
-    (100/24),   (100/24),   (100/24),    (100/24),
-    (100/24),   (100/24),   (100/24),    (100/24),
-    (100/24),   (100/24),   (100/24),    (100/24),
- ]
+    (100 / 24), (100 / 24), (100 / 24), (100 / 24),
+    (100 / 24), (100 / 24), (100 / 24), (100 / 24),
+    (100 / 24), (100 / 24), (100 / 24), (100 / 24),
+    (100 / 24), (100 / 24), (100 / 24), (100 / 24),
+    (100 / 24), (100 / 24), (100 / 24), (100 / 24),
+    (100 / 24), (100 / 24), (100 / 24), (100 / 24),
+]
 
- let chartLabels = [
-     //here is 12:00am
-     "12:00 AM", "01:00 AM", "02:00 AM", "03:00 AM",
-     "04:00 AM", "05:00 AM", "06:00 AM", "07:00 AM",
-     "08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM",
-     "12:00 PM", "01:00 PM", "02:00 PM", "03:00 PM",
-     "04:00 PM", "05:00 PM", "06:00 PM", "07:00 PM", 
-     "08:00 PM", "09:00 PM", "10:00 PM", "11:00 PM",
-    ]
-    
-    
-    
-    // functions for adding and removing activities
-    function addData(chart, actObj) {
-        let convertedDuration = actObj.duration.split(":")
-        let convertedStart = actObj.start.split(":")
-        // let convertedEnd = actObj.end.split(":")
-        
-        // var parsedStartHr = parseInt(convertedStart[0]) * (100/24)
-        // var parsedEndHr = parseInt(convertedEnd[0]) * (100/24)
-        var parsedDuration = parseInt(convertedDuration[0]) * (100/24)
-        
-        var startClockTime = parseInt(convertedStart[0]);
-        var durationClockUnits = parseInt(convertedDuration[0])
-        
-        
-        
-        
-        
-        
-       
-        for (var i = 0; i < chartData.length; i++) {
-            if (i === startClockTime) {
-                console.log(i)
-                
-                if (durationClockUnits > 1) {
-                    chartData[i] = parsedDuration;
+let chartLabels = [
+    //here is 12:00am
+    "12:00 AM", "01:00 AM", "02:00 AM", "03:00 AM",
+    "04:00 AM", "05:00 AM", "06:00 AM", "07:00 AM",
+    "08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM",
+    "12:00 PM", "01:00 PM", "02:00 PM", "03:00 PM",
+    "04:00 PM", "05:00 PM", "06:00 PM", "07:00 PM",
+    "08:00 PM", "09:00 PM", "10:00 PM", "11:00 PM",
+]
+
+
+
+// functions for adding and removing activities
+function addData(chart, actObj) {
+    let convertedDuration = actObj.duration.split(":")
+    let convertedStart = actObj.start.split(":")
+    // let convertedEnd = actObj.end.split(":")
+
+    // var parsedStartHr = parseInt(convertedStart[0]) * (100/24)
+    // var parsedEndHr = parseInt(convertedEnd[0]) * (100/24)
+    var parsedDuration = parseInt(convertedDuration[0]) * (100 / 24)
+
+    var startClockTime = parseInt(convertedStart[0]);
+    var durationClockUnits = parseInt(convertedDuration[0])
+
+
+
+
+
+
+
+    for (var i = 0; i < chartData.length; i++) {
+        if (i === startClockTime) {
+            console.log(i)
+
+            if (durationClockUnits > 1) {
+                chartData[i] = parsedDuration;
                 chartLabels[i] = actObj.name;
                 colors[i] = actObj.newColor;
                 colorReplacement.splice(0, 1)
-                
-                    for (var j = 0; j < durationClockUnits; j++) {
-                        
-                            if (j > 0) {
-                                chartData.splice((i + j), 1, 0)
-                                chartLabels.splice((i + j), 1, 0)
-                                
-                            }
-                        }
-                } else {
-                    chartData[i] = parsedDuration;
-                    chartLabels[i] = actObj.name;
-                    colors[i] = actObj.newColor;
-                    colorReplacement.splice(0, 1)  
+
+                for (var j = 0; j < durationClockUnits; j++) {
+
+                    if (j > 0) {
+                        chartData.splice((i + j), 1, 0)
+                        chartLabels.splice((i + j), 1, 0)
+
+                    }
                 }
+            } else {
+                chartData[i] = parsedDuration;
+                chartLabels[i] = actObj.name;
+                colors[i] = actObj.newColor;
+                colorReplacement.splice(0, 1)
+            }
 
             chartData[i] = parsedDuration;
             chartLabels[i] = actObj.name;
             colors[i] = actObj.newColor;
-            colorReplacement.splice(0,1)
-            }
+            colorReplacement.splice(0, 1)
+        }
     }
     console.log(colors)
     chart.update();
@@ -155,21 +155,21 @@ var colors = [
     'rgb(242, 242, 242)', 'rgb(242, 242, 242)', 'rgb(242, 242, 242)', 'rgb(242, 242, 242)',
 ]
 
- 
+
 var colorReplacement = [
-    
+
     'rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(0, 128, 0, 1)',
     'rgba(153, 102, 255, 1)', 'rgba(255, 0, 0, 1)', 'rgba(255, 159, 64, 1)', 'rgba(210, 180, 140, 1)',
     'rgba(204, 204, 0, 1)', 'rgba(0, 100, 0, 1)', 'rgba(139, 0, 139, 1)', 'rgba(139, 0, 0, 1)',
     'rgba(75, 192, 192, 1)', 'rgba(255, 140, 0, 1)', 'rgba(139, 69, 19, 1)', 'rgba(0, 0, 139, 1)',
-   
+
 ]
 console.log(colors)
 let colorsReset = colors
 let resetLabels = chartLabels
 let resetData = chartData
 
-function reset (){
+function reset() {
     chartLabels = resetData
     chartLabels = resetLabels
     colors = colorsReset
@@ -221,10 +221,10 @@ var chart = new Chart(ctx, {
 
 $(document).ready(function () {
     console.log(colors)
-    var  localArray = JSON.parse(localStorage.getItem('activityList'));
+    var localArray = JSON.parse(localStorage.getItem('activityList'));
     if (localArray !== null) {
         console.log(localArray)
-        for (var i = 0; i < localArray.length; i++){
+        for (var i = 0; i < localArray.length; i++) {
             var tempArr = localArray[i]
             tempArr.newColor = colorReplacement[0]
             console.log(tempArr)
@@ -232,8 +232,15 @@ $(document).ready(function () {
 
         }
     }
-    
-    $('#reset-charts').on('click', function(){
+    $.ajax({
+        url: 'http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1',
+        success: function (data) {
+            var post = data.shift(); // The data is an array of posts. Grab the first one.
+            $('#quote').html(post.content);
+        },
+    });
+
+    $('#reset-charts').on('click', function () {
         console.log('clicked you.')
         reset()
     })
@@ -356,43 +363,43 @@ $(document).ready(function () {
                 newActivity.date = $("#activity-date").val().trim();
             }
 
-        // We're pushing newActivity into the array, stringifying the array, then locally storing the array
-        activityList.push(newActivity)
-        activityList = activityList.concat(JSON.parse(localStorage.getItem('activityList') || '[]'));
-        localStorage.setItem("activityList", JSON.stringify(activityList));
-        //-------------------------------------------------------------------------------CHART CODE P2---------------------------------------------------------------- 
-                
-                var newActObj = {
-                    name: newActivity.name,
-                    description: newActivity.description,
-                    date: newActivity.date,
-                    start: newActivity.start,
-                    duration: newActivity.duration,
-                    end: newActivity.end,
-                }
-        
-                addData(chart, newActObj);
-        
-        // --------------------------------------------------------------------------END CHART CODE P2------------------------------------------------------------------
+            // We're pushing newActivity into the array, stringifying the array, then locally storing the array
+            activityList.push(newActivity)
+            activityList = activityList.concat(JSON.parse(localStorage.getItem('activityList') || '[]'));
+            localStorage.setItem("activityList", JSON.stringify(activityList));
+            //-------------------------------------------------------------------------------CHART CODE P2---------------------------------------------------------------- 
 
-        console.log(newActivity.name);
-        console.log(newActivity.date);
-        console.log(newActivity.start);
-        console.log(newActivity.end);
-        console.log(newActivity.duration);
-        console.log(newActivity.description);
-        
-        $("#activity-name").val("");
-        $("#activity-date").val("")
-        $("#start-time").val("");
-        $("#end-time").val("");
-        $("#activity-duration").val("");
-        $("#activity-description").val("");
-        $("#get-duration").text("Get Duration");
-        $("#get-duration").removeClass("clear-duration");
-        
-        window.location.reload(true);
-    }
+            var newActObj = {
+                name: newActivity.name,
+                description: newActivity.description,
+                date: newActivity.date,
+                start: newActivity.start,
+                duration: newActivity.duration,
+                end: newActivity.end,
+            }
+
+            addData(chart, newActObj);
+
+            // --------------------------------------------------------------------------END CHART CODE P2------------------------------------------------------------------
+
+            console.log(newActivity.name);
+            console.log(newActivity.date);
+            console.log(newActivity.start);
+            console.log(newActivity.end);
+            console.log(newActivity.duration);
+            console.log(newActivity.description);
+
+            $("#activity-name").val("");
+            $("#activity-date").val("")
+            $("#start-time").val("");
+            $("#end-time").val("");
+            $("#activity-duration").val("");
+            $("#activity-description").val("");
+            $("#get-duration").text("Get Duration");
+            $("#get-duration").removeClass("clear-duration");
+
+            window.location.reload(true);
+        }
     });
 
 
