@@ -269,65 +269,64 @@ $(document).ready(function () {
                 newActivity.duration = tempDuration;
 
                 }
-//             if ($("#end-time").val() === "") {
-//                 console.log("calculating end time...")
-//                 var newStart = newActivity.start.split(":");
-//                 var newDur = newActivity.duration.split(":");
-//                 console.log(newStart);
-//                 console.log(newDur);
-//                 var addHour = parseInt(newStart[0]) + parseInt(newDur[0]);
-//                 console.log(addHour + "is the hours");
+            if ($("#end-time").val() === "") {
+                console.log("calculating end time...")
+                var newStart = newActivity.start.split(":");
+                var newDur = newActivity.duration.split(":");
+                console.log(newStart);
+                console.log(newDur);
+                var addHour = parseInt(newStart[0]) + parseInt(newDur[0]);
+                console.log(addHour + "is the hours");
 
-//                 if (addHour > 24) {
-//                     alert("PLEASE ONLY EVENTS COMPLETED BEFORE MIDNIGHT");
-//                     return;
-//                     }
+                if (addHour > 24) {
+                    alert("PLEASE ONLY EVENTS COMPLETED BEFORE MIDNIGHT");
+                    return;
+                    }
             
-//             if ($("#recurring").is(":checked")) {
-//                 newActivity.daily = true;
-//                 }
-//             else {
-//                 if (addHour.toString().length === 1) {
-//                     addHour = "0" + addHour.toString();
-//                     console.log("we added 0 now it's " + addHour);
-//                     }
-//                 else {
-//                     addHour.toString();
-//                     console.log("no zero needed " + addHour);
-//                     }
-//                 }
-//             var addMin = parseInt(newStart[1]) + parseInt(newDur[1]);
-//             console.log("right now addMin is " + addMin);
+            if ($("#recurring").is(":checked")) {
+                newActivity.daily = true;
+                }
+            else {
+                if (addHour.toString().length === 1) {
+                    addHour = "0" + addHour.toString();
+                    console.log("we added 0 now it's " + addHour);
+                    }
+                else {
+                    addHour.toString();
+                    console.log("no zero needed " + addHour);
+                    }
+                }
+            var addMin = parseInt(newStart[1]) + parseInt(newDur[1]);
+            console.log("right now addMin is " + addMin);
 
-//             if (addMin > 60) {
-//                 addMin = addMin - 60;
-//                 console.log("math! changed it to " + addMin);
-//                 }
+            if (addMin > 60) {
+                addMin = addMin - 60;
+                console.log("math! changed it to " + addMin);
+                }
 
-//             if (addMin.toString().length === 1) {
-//                 addMin = "0" + addMin.toString();
-//                 console.log("had to embiggen it to " + addMin);
-//                 }
-//             else {
-//                 addMin.toString();
-//                 }
+            if (addMin.toString().length === 1) {
+                addMin = "0" + addMin.toString();
+                console.log("had to embiggen it to " + addMin);
+                }
+            else {
+                addMin.toString();
+                }
         
-//             //sets the new end time
-//             newActivity.end = addHour + ":" + addMin;
-//             console.log("we calculated " + newActivity.end + " as the end time");
-//             }   
-// ​
-//         else if ($("#end-time").val() !== "") {
-//             newActivity.end = $("#end-time").val().trim();
-//         }
+            //sets the new end time
+            newActivity.end = addHour + ":" + addMin;
+            console.log("we calculated " + newActivity.end + " as the end time");
+            }   
+        else if ($("#end-time").val() !== "") {
+            newActivity.end = $("#end-time").val().trim();
+        }
 
-//         //uses moment.js to set today's date if they left Date blank
-//         if ($("#activity-date").val() === "") {
-//             newActivity.date = moment().format("YYYY-MM-DD");
-//         }
-//         else {
-//             newActivity.date = $("#activity-date").val().trim();
-//         }
+        //uses moment.js to set today's date if they left Date blank
+        if ($("#activity-date").val() === "") {
+            newActivity.date = moment().format("YYYY-MM-DD");
+        }
+        else {
+            newActivity.date = $("#activity-date").val().trim();
+        }
 
         // We're pushing newActivity into the array, stringifying the array, then locally storing the array
         activityList.push(newActivity)
