@@ -66,36 +66,47 @@ var newActivity = {
 
 let chartData = [
     //The pie chart is composed of 24, hour long segments at default
-    (100 / 24), (100 / 24), (100 / 24), (100 / 24),
-    (100 / 24), (100 / 24), (100 / 24), (100 / 24),
-    (100 / 24), (100 / 24), (100 / 24), (100 / 24),
-    (100 / 24), (100 / 24), (100 / 24), (100 / 24),
-    (100 / 24), (100 / 24), (100 / 24), (100 / 24),
-    (100 / 24), (100 / 24), (100 / 24), (100 / 24),
+    (100/24),   (100/24),   (100/24),    (100/24),
+    (100/24),   (100/24),   (100/24),    (100/24),
+    (100/24),   (100/24),   (100/24),    (100/24),
+    (100/24),   (100/24),   (100/24),    (100/24),
+    (100/24),   (100/24),   (100/24),    (100/24),
+    (100/24),   (100/24),   (100/24),    (100/24),
+ ]
 
-]
+let resetData = chartData
 let chartLabels = [
     //here is 12:00am
-    "12:00 AM", "01:00 AM", "02:00 AM", "03:00 AM",
-    "04:00 AM", "05:00 AM", "06:00 AM", "07:00 AM",
-    "08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM",
-    "12:00 PM", "01:00 PM", "02:00 PM", "03:00 PM",
-    "04:00 PM", "05:00 PM", "06:00 PM", "07:00 PM",
-    "08:00 PM", "09:00 PM", "10:00 PM", "11:00 PM",
-]
+      "12:00 AM", "01:00 AM", "02:00 AM", "03:00 AM",
+      "04:00 AM", "05:00 AM", "06:00 AM", "07:00 AM",
+      "08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM",
+      "12:00 PM", "01:00 PM", "02:00 PM", "03:00 PM",
+      "04:00 PM", "05:00 PM", "06:00 PM", "07:00 PM", 
+      "08:00 PM", "09:00 PM", "10:00 PM", "11:00 PM",
+    ]
+let resetLabels = chartLabels
 
+function reset (){
+    chartLabels = resetData
+    chartLabels = resetLabels
+    localStorage.clear()
+    window.location.reload(true);
+}
+    
 // functions for adding and removing activities
 function addData(chart, actObj) {
     let convertedDuration = actObj.duration.split(":")
-    let convertedStart = actObj.start.split(":")
-    // let convertedEnd = actObj.end.split(":")
+let convertedStart = actObj.start.split(":")
+// let convertedEnd = actObj.end.split(":")
 
-    // var parsedStartHr = parseInt(convertedStart[0]) * (100/24)
-    // var parsedEndHr = parseInt(convertedEnd[0]) * (100/24)
-    var parsedDuration = parseInt(convertedDuration[0]) * (100 / 24)
+// var parsedStartHr = parseInt(convertedStart[0]) * (100/24)
+// var parsedEndHr = parseInt(convertedEnd[0]) * (100/24)
+var parsedDuration = parseInt(convertedDuration[0]) * (100/24)
 
-    var startClockTime = parseInt(convertedStart[0]);
-    var durationClockUnits = parseInt(convertedDuration[0])
+var startClockTime = parseInt(convertedStart[0]);
+var durationClockUnits = parseInt(convertedDuration[0])
+
+    
 
 
 
@@ -127,7 +138,13 @@ function addData(chart, actObj) {
 
 
             }
-
+        } else {
+            chartData[i] = parsedDuration;
+            chartLabels[i] = actObj.name;
+            colors[i] = actObj.newColor;
+            colorReplacement.splice(0,1)
+            
+            
         }
     }
     chart.update();
@@ -211,7 +228,11 @@ $(document).ready(function () {
 
         }
     }
- 
+    $('#reset-charts').on('click', function(){
+        console.log('clicked you.')
+        reset()
+    })
+
     $("#get-duration").on("click", function (event) {
         event.preventDefault();
 
