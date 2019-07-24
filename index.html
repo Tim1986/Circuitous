@@ -5,11 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Circuit.OS</title>
+    <title>Circuitous</title>
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
     <!-- Bootswatch -->
     <link rel="stylesheet" id="css-link" href="assets/css/bootstrap.min.css">
     <!-- Custom CSS -->
@@ -31,7 +40,7 @@
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="#">Circuit.OS</a>
+        <a class="navbar-brand" href="#">Circuitous</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
             aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -40,13 +49,13 @@
         <div class="collapse navbar-collapse" id="navbarColor01">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#new-activity">New Activity</a>
+                    <a class="nav-link" href="#new-activity">Plan It</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#graph-output">Visualize</a>
+                    <a class="nav-link" href="#graph-output">Visualize It</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#calendar-output">Your Schedule</a>
+                    <a class="nav-link" href="#calendar-output">Schedule It</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="dark-mode" href="#top"><strong><span id="mode-text">Dark
@@ -62,15 +71,25 @@
         <div class="row">
             <div class="col-12">
                 <div class="jumbotron pb-5">
-                    <h1 class="display-4">Welcome to Circuit.OS!</h1>
+                    <p class="display-4">Welcome to <img id="logo" src="assets/images/logo.gif"></img>ircuitous!</p>
                     <p class="lead">Input your plans for the day and we'll put them into a handy pie chart.</p>
                     <a class="btn btn-success btn-lg" href="#new-activity" role="button">Get Started</a>
                 </div>
             </div>
         </div>
         <div class="card">
+            <div class="card-header">
+                Quote of the Day
+            </div>
+            <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                    <p id="quote"></p>
+                </blockquote>
+            </div>
+        </div>
+        <div class="card">
             <div class="card-header"><a name="new-activity">
-                    Activity
+                    Plan It
                     <small class="form-text text-muted"><a href="#top">[Return to top]</a></small>
                 </a></div>
             <div class="card-body">
@@ -93,7 +112,7 @@
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label for="activity-date">Date
-                                            <small id="" class="form-text text-muted">If not today</small>
+                                            <small id="" class="form-text text-muted">Defaults to today</small>
                                         </label>
                                         <input name="activitiy-date" type="date" class="form-control"
                                             id="activity-date">
@@ -127,8 +146,8 @@
                                     <div class="form-group">
                                         <label for="duration">
                                             <button class="btn btn-outline-info" id="get-duration">Duration*</button>
-                                            <small id="" class="form-text">Click to calculate the duration or enter
-                                                it manually.</small>
+                                            <small id="" class="form-text">Click to calculate the duration in whole
+                                                hours or enter it manually.</small>
                                         </label>
                                         <input name="activity-duration" type="text" class="form-control"
                                             id="activity-duration" placeholder="HH:mm">
@@ -157,26 +176,28 @@
         <div class="bg-modal">
             <div class="modal-content">
                 <div class="close">+</div>
-                <p id="modal">Please enter required fields</p>
+                <p id="modal">Please fill out all required fields</p>
             </div>
         </div>
         <div class="card">
             <div class="card-header"><a name="graph-output">
-                    Productivity Analysis
+                    Visualize It
                     <small class="form-text text-muted"><a href="#top">[Return to top]</a></small>
                 </a></div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-12">
-                            <canvas id="chart-canvas" 
-                            aria-label="This is where the productivity chart should be" role="img"></canvas>
+
+                        <canvas id="chart-canvas" aria-label="This is where the productivity chart should be"
+                            role="img"></canvas>
+                        <button type="submit" id="reset-charts" class="btn btn-primary">Chart Reset</button>
                     </div>
                 </div>
             </div>
         </div>
         <div class="card">
-            <div class="card-header"git ><a name="calendar-output">
-                    My Calendar
+            <div class="card-header" git><a name="calendar-output">
+                    Schedule It
                     <small class="form-text text-muted"><a href="#top">[Return to top]</a></small>
                 </a></div>
             <div class="card-body">
@@ -200,6 +221,14 @@
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <!-- proxy to bypass cors-->
+    <script>
+        jQuery.ajaxPrefilter(function (options) {
+            if (options.crossDomain && jQuery.support.cors) {
+                options.url = 'https://uncc-cors-proxy.herokuapp.com/' + options.url;
+            }
+        });
+    </script>
     <!-- Chart.JS -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <!-- Moment.js -->
