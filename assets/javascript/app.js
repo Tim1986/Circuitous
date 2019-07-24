@@ -91,36 +91,29 @@ let chartLabels = [
 function addData(chart, actObj) {
     let convertedDuration = actObj.duration.split(":")
     let convertedStart = actObj.start.split(":")
-    // let convertedEnd = actObj.end.split(":")
-
-    // var parsedStartHr = parseInt(convertedStart[0]) * (100/24)
-    // var parsedEndHr = parseInt(convertedEnd[0]) * (100/24)
+    // grab user inputs from object
     var parsedDuration = parseInt(convertedDuration[0]) * (100 / 24)
-
+    // convert to Chart Units
     var startClockTime = parseInt(convertedStart[0]);
     var durationClockUnits = parseInt(convertedDuration[0])
-
-
-
-
-
-
-
+    // splits input into Hours and minutes
     for (var i = 0; i < chartData.length; i++) {
+    // loop through all predefined chart segments
         if (i === startClockTime) {
-
+    // find what index to call for position
             if (durationClockUnits > 1) {
+                // longer than 1 hour
                 chartData[i] = parsedDuration;
                 chartLabels[i] = actObj.name;
                 colors[i] = actObj.newColor;
                 colorReplacement.splice(0, 1)
-
+                // replaces predfined values with user inputs at the current index
                 for (var j = 0; j < durationClockUnits; j++) {
-
+                    // loop through duration to find what indices need to be deleted to MAINTAIN ORDER
                     if (j > 0) {
                         chartData.splice((i + j), 1, 0)
                         chartLabels.splice((i + j), 1, 0)
-
+                        // deletes the overlap
                     }
                 }
             } else {
@@ -129,7 +122,6 @@ function addData(chart, actObj) {
                 colors[i] = actObj.newColor;
                 colorReplacement.splice(0, 1)
             }
-
             chartData[i] = parsedDuration;
             chartLabels[i] = actObj.name;
             colors[i] = actObj.newColor;
